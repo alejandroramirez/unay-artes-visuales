@@ -3,14 +3,22 @@ import type { StructureResolver } from "sanity/structure";
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
 export const structure: StructureResolver = (S) =>
 	S.list()
-		.title("Blog")
+		.title("Content")
 		.items([
-			S.documentTypeListItem("post").title("Posts"),
-			S.documentTypeListItem("category").title("Categories"),
-			S.documentTypeListItem("author").title("Authors"),
+			// Artwork - Main content type with image preview
+			S.listItem()
+				.title("Artwork")
+				.schemaType("artwork")
+				.child(
+					S.documentTypeList("artwork")
+						.title("Artwork")
+						.defaultOrdering([
+							{ field: "order", direction: "asc" },
+							{ field: "_createdAt", direction: "desc" },
+						]),
+				),
+			// Divider for visual separation
 			S.divider(),
-			...S.documentTypeListItems().filter((item) => {
-				const id = item.getId();
-				return id !== undefined && !["post", "category", "author"].includes(id);
-			}),
+			// Categories for organizing artwork
+			S.documentTypeListItem("category").title("Categories"),
 		]);
