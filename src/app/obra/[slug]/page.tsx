@@ -38,7 +38,7 @@ export async function generateMetadata({
 	const imageUrl = getDetailImageUrl(artwork.image, 1200);
 
 	return {
-		title: `${artwork.title} | Unay Artes Visuales`,
+		title: `${artwork.title} | UNAY Artes Visuales`,
 		description: artwork.description
 			? // Extract plain text from PortableText for meta description
 				artwork.description

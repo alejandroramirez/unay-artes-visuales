@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 
 export const metadata: Metadata = {
-	title: "Unay Artes Visuales",
+	title: "UNAY Artes Visuales",
 	description: "Portafolio de arte visual",
 };
 

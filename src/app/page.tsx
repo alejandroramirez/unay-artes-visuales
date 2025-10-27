@@ -16,7 +16,7 @@ export default async function HomePage() {
 			<header className="border-neutral-200 border-b bg-white">
 				<div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
 					<h1 className="font-bold text-2xl text-neutral-900 sm:text-3xl">
-						Unay Artes Visuales
+						UNAY Artes Visuales
 					</h1>
 				</div>
 			</header>
