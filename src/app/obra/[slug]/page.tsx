@@ -119,6 +119,11 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 							{artwork.title}
 						</h1>
 
+						{/* Author */}
+						{artwork.autor && (
+							<p className="mt-2 text-neutral-700 text-xl">{artwork.autor}</p>
+						)}
+
 						{/* Basic info */}
 						<div className="mt-4 space-y-2">
 							{artwork.category && (

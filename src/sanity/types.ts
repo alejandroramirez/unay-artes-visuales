@@ -32,6 +32,7 @@ export interface Artwork {
 		alt: string;
 	};
 	description?: PortableTextBlock[];
+	autor?: string;
 	category?: Category;
 	year?: string;
 	dimensions?: string;
@@ -52,6 +53,7 @@ export interface ArtworkGridItem {
 	image: Image & {
 		alt: string;
 	};
+	autor?: string;
 	category?: {
 		_id: string;
 		title: string;

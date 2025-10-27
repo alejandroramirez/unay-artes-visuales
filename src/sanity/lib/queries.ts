@@ -26,6 +26,7 @@ export async function getAllArtwork(): Promise<ArtworkGridItem[]> {
         asset,
         alt
       },
+      autor,
       "category": category->{
         _id,
         title
@@ -54,6 +55,7 @@ export async function getArtworkBySlug(slug: string): Promise<Artwork | null> {
         alt
       },
       description,
+      autor,
       "category": category->{
         _id,
         _type,

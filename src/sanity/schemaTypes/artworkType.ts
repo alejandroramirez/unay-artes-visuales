@@ -52,6 +52,13 @@ export const artworkType = defineType({
 			description: "Rich text description or artist statement about the work",
 		}),
 		defineField({
+			name: "autor",
+			title: "Autor",
+			type: "string",
+			description: "Name of the artist",
+			placeholder: 'e.g., "Ana García", "Carlos Martínez"',
+		}),
+		defineField({
 			name: "category",
 			title: "Category",
 			type: "reference",

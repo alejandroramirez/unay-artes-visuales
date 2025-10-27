@@ -41,6 +41,11 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
 					{artwork.title}
 				</h3>
 
+				{/* Author */}
+				{artwork.autor && (
+					<p className="mt-1 text-neutral-700 text-sm">{artwork.autor}</p>
+				)}
+
 				{/* Category and year */}
 				{(artwork.category || artwork.year) && (
 					<p className="mt-1 text-neutral-600 text-sm">

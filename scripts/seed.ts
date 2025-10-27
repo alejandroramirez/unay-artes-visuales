@@ -3,15 +3,15 @@
  * Run with: pnpm seed
  */
 
-import { config } from "dotenv";
 import { createClient } from "@sanity/client";
+import { config } from "dotenv";
 
 // Load environment variables from .env.local
 config({ path: ".env.local" });
 
 const client = createClient({
-	projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-	dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+	projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "",
+	dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "",
 	apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2025-10-08",
 	token: process.env.SANITY_API_TOKEN,
 	useCdn: false,
@@ -89,6 +89,7 @@ async function createMockArtworks(categoryIds: Record<string, string>) {
 	const artworks = [
 		{
 			title: "Amanecer en las Montañas",
+			autor: "Ana García Mendoza",
 			category: categoryIds.pinturas,
 			year: "2024",
 			dimensions: "60 x 80 cm",
@@ -98,6 +99,7 @@ async function createMockArtworks(categoryIds: Record<string, string>) {
 		},
 		{
 			title: "Geometría Urbana",
+			autor: "Carlos Martínez",
 			category: categoryIds.grabados,
 			year: "2023",
 			dimensions: "40 x 50 cm",
@@ -107,6 +109,7 @@ async function createMockArtworks(categoryIds: Record<string, string>) {
 		},
 		{
 			title: "Reflejos",
+			autor: "María Fernández",
 			category: categoryIds.pinturas,
 			year: "2024",
 			dimensions: "70 x 90 cm",
@@ -116,6 +119,7 @@ async function createMockArtworks(categoryIds: Record<string, string>) {
 		},
 		{
 			title: "Memoria del Agua",
+			autor: "Ana García Mendoza",
 			category: categoryIds.grabados,
 			year: "2023",
 			dimensions: "30 x 40 cm",
@@ -125,6 +129,7 @@ async function createMockArtworks(categoryIds: Record<string, string>) {
 		},
 		{
 			title: "Paisaje Fragmentado",
+			autor: "Diego Ramírez",
 			category: categoryIds["arte-digital"],
 			year: "2024",
 			dimensions: "Dimensiones variables",
@@ -134,6 +139,7 @@ async function createMockArtworks(categoryIds: Record<string, string>) {
 		},
 		{
 			title: "Naturaleza Abstracta",
+			autor: "María Fernández",
 			category: categoryIds.pinturas,
 			year: "2023",
 			dimensions: "50 x 70 cm",
@@ -143,6 +149,7 @@ async function createMockArtworks(categoryIds: Record<string, string>) {
 		},
 		{
 			title: "Serie Texturas III",
+			autor: "Carlos Martínez",
 			category: categoryIds.grabados,
 			year: "2024",
 			dimensions: "35 x 45 cm",
@@ -152,6 +159,7 @@ async function createMockArtworks(categoryIds: Record<string, string>) {
 		},
 		{
 			title: "Composición en Azul",
+			autor: "Diego Ramírez",
 			category: categoryIds["arte-digital"],
 			year: "2024",
 			dimensions: "100 x 150 cm (impresión)",
@@ -176,11 +184,13 @@ async function createMockArtworks(categoryIds: Record<string, string>) {
 
 	for (let i = 0; i < artworks.length; i++) {
 		const artwork = artworks[i];
+		if (!artwork) continue;
+
 		console.log(`   Creating: ${artwork.title}...`);
 
 		// Create placeholder image
 		const image = await createPlaceholderImage(
-			artwork.color!,
+			artwork.color || "#999999",
 			artwork.title,
 		);
 
@@ -212,6 +222,7 @@ async function createMockArtworks(categoryIds: Record<string, string>) {
 					],
 				},
 			],
+			autor: artwork.autor,
 			category: {
 				_type: "reference",
 				_ref: artwork.category,
