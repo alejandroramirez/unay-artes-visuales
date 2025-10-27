@@ -1,9 +1,13 @@
 /**
  * Seed script to populate Sanity with mock artwork data
- * Run with: pnpm tsx scripts/seed.ts
+ * Run with: pnpm seed
  */
 
+import { config } from "dotenv";
 import { createClient } from "@sanity/client";
+
+// Load environment variables from .env.local
+config({ path: ".env.local" });
 
 const client = createClient({
 	projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
