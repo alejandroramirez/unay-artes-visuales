@@ -3,6 +3,8 @@
 ## Overview
 This document outlines the step-by-step implementation plan for building the visual arts portfolio website with all required features.
 
+**Important**: All frontend content, UI text, and metadata must be in Mexican Spanish (es-MX). Sanity Studio fields and descriptions can remain in English for developer convenience.
+
 ## Phase 1: Sanity Schema & Studio Setup
 
 ### 1.1 Create Category Schema
@@ -269,13 +271,14 @@ type Artwork = {
 - `src/app/page.tsx` - Homepage metadata
 - `src/app/artwork/[slug]/page.tsx` - Dynamic metadata
 
-**Metadata to add**:
+**Metadata to add** (all in Spanish):
 - Title tags (with artwork name)
 - Meta descriptions
 - Open Graph images (artwork image)
 - Twitter cards
 - Canonical URLs
 - JSON-LD structured data for artwork
+- `lang="es-MX"` on HTML tag
 
 ---
 

@@ -14,8 +14,8 @@ export default function HomePage() {
 					>
 						<h3 className="font-bold text-2xl">Sanity Studio →</h3>
 						<div className="text-lg">
-							Access the content management system to create and manage your
-							visual arts content.
+							Accede al sistema de gestión de contenido para crear y administrar
+							tus obras de arte.
 						</div>
 					</Link>
 					<a
@@ -24,10 +24,10 @@ export default function HomePage() {
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						<h3 className="font-bold text-2xl">Documentation →</h3>
+						<h3 className="font-bold text-2xl">Documentación →</h3>
 						<div className="text-lg">
-							Learn more about Sanity CMS and how to build powerful content
-							experiences.
+							Aprende más sobre Sanity CMS y cómo construir experiencias de
+							contenido poderosas.
 						</div>
 					</a>
 				</div>

@@ -9,6 +9,12 @@ Unay Artes Visuales is a visual arts portfolio/gallery website built with Next.j
 ### Target User
 The site owner is non-technical, so Sanity Studio must be user-friendly and intuitive. The focus is on simplicity, maintainability, and showcasing artwork with minimal UI distractions.
 
+### Language
+**Primary Language**: Mexican Spanish (es-MX)
+- All frontend content, UI text, and metadata must be in Spanish
+- Sanity Studio can remain in English for developer convenience
+- SEO content (meta tags, descriptions) in Spanish
+
 ## Development Commands
 
 ```bash
