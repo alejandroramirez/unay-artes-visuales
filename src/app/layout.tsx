@@ -6,7 +6,6 @@ import { Geist } from "next/font/google";
 export const metadata: Metadata = {
 	title: "Unay Artes Visuales",
 	description: "Portafolio de arte visual",
-	icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
 const geist = Geist({
