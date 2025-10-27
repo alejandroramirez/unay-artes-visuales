@@ -1,37 +1,62 @@
 import Link from "next/link";
+import { ArtworkCard } from "~/components/ArtworkCard";
+import { getAllArtwork } from "~/sanity/lib/queries";
 
-export default function HomePage() {
+/**
+ * Homepage - Gallery Grid
+ * Displays all artwork in a responsive masonry-style grid
+ * Server component that fetches data at build time
+ */
+export default async function HomePage() {
+	const artworks = await getAllArtwork();
+
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-			<div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-				<h1 className="font-extrabold text-5xl text-white tracking-tight sm:text-[5rem]">
-					Unay <span className="text-[hsl(280,100%,70%)]">Artes Visuales</span>
-				</h1>
-				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-					<Link
-						className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-						href="/studio"
-					>
-						<h3 className="font-bold text-2xl">Sanity Studio →</h3>
-						<div className="text-lg">
-							Accede al sistema de gestión de contenido para crear y administrar
-							tus obras de arte.
-						</div>
-					</Link>
-					<a
-						className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-						href="https://www.sanity.io/docs"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<h3 className="font-bold text-2xl">Documentación →</h3>
-						<div className="text-lg">
-							Aprende más sobre Sanity CMS y cómo construir experiencias de
-							contenido poderosas.
-						</div>
-					</a>
+		<main className="min-h-screen bg-white">
+			{/* Header */}
+			<header className="border-neutral-200 border-b bg-white">
+				<div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+					<h1 className="font-bold text-2xl text-neutral-900 sm:text-3xl">
+						Unay Artes Visuales
+					</h1>
 				</div>
+			</header>
+
+			{/* Gallery Grid */}
+			<div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+				{artworks.length === 0 ? (
+					// Empty state
+					<div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
+						<p className="mb-4 text-neutral-600 text-xl">
+							Aún no hay obras en la galería
+						</p>
+						<Link
+							href="/studio"
+							className="rounded-lg bg-neutral-900 px-6 py-3 font-medium text-white transition-colors hover:bg-neutral-800"
+						>
+							Agregar primera obra →
+						</Link>
+					</div>
+				) : (
+					// Responsive grid
+					<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+						{artworks.map((artwork) => (
+							<ArtworkCard key={artwork._id} artwork={artwork} />
+						))}
+					</div>
+				)}
 			</div>
+
+			{/* Footer with Studio link */}
+			<footer className="mt-16 border-neutral-200 border-t bg-neutral-50">
+				<div className="container mx-auto px-4 py-6 text-center sm:px-6 lg:px-8">
+					<Link
+						href="/studio"
+						className="text-neutral-600 text-sm transition-colors hover:text-neutral-900"
+					>
+						Administrar contenido →
+					</Link>
+				</div>
+			</footer>
 		</main>
 	);
 }
