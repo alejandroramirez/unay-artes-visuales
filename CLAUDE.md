@@ -45,7 +45,6 @@ Create a comprehensive artwork schema with the following fields:
 #### 2. Frontend Pages
 - **Homepage/Gallery Grid**: Masonry or standard grid layout showing all artwork
 - **Detail View**: Modal or dedicated page showing full-size image with metadata
-- **Category Filtering** (optional): Filter artwork by collection/category
 
 #### 3. Key Functionality
 - Responsive grid that works on mobile/tablet/desktop

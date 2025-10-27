@@ -130,14 +130,7 @@ type Artwork = {
    }
    ```
 
-3. **Get Artwork by Category** (for filtering)
-   ```groq
-   *[_type == "artwork" && category._ref == $categoryId] | order(order asc, _createdAt desc) {
-     _id, title, slug, image, category->, year, order
-   }
-   ```
-
-4. **Get All Categories**
+3. **Get All Categories**
    ```groq
    *[_type == "category"] | order(order asc, title asc) {
      _id, title, slug, order
@@ -147,7 +140,6 @@ type Artwork = {
 **Create helper functions**:
 - `getAllArtwork()`
 - `getArtworkBySlug(slug: string)`
-- `getArtworkByCategory(categoryId: string)`
 - `getAllCategories()`
 
 ---
@@ -257,37 +249,9 @@ type Artwork = {
 
 ---
 
-## Phase 5: Filtering & Search
+## Phase 5: Optimization
 
-### 5.1 Add Category Filter
-**File**: `src/components/CategoryFilter.tsx`
-
-**Features**:
-- Horizontal pill-style buttons or dropdown
-- "All" option to show all artwork
-- Active state styling
-- URL state management (query params)
-
-**Implementation**:
-- Client component with state management
-- Filter artwork array or refetch from Sanity
-- Smooth transition when filtering
-
----
-
-### 5.2 Optional: Search Functionality
-**File**: `src/components/SearchBar.tsx`
-
-**Features** (if time permits):
-- Search by title, medium, or description
-- Real-time filtering
-- Clear search button
-
----
-
-## Phase 6: Optimization
-
-### 6.1 Image Optimization
+### 5.1 Image Optimization
 **Tasks**:
 - Configure Next.js Image component properly
 - Use Sanity's image CDN with optimal parameters:
@@ -299,7 +263,7 @@ type Artwork = {
 
 ---
 
-### 6.2 SEO Implementation
+### 5.2 SEO Implementation
 **Files**:
 - `src/app/layout.tsx` - Global metadata
 - `src/app/page.tsx` - Homepage metadata
@@ -315,7 +279,7 @@ type Artwork = {
 
 ---
 
-### 6.3 Performance Optimization
+### 5.3 Performance Optimization
 **Tasks**:
 - Code splitting (automatic with Next.js)
 - Minimize client-side JavaScript
@@ -326,9 +290,9 @@ type Artwork = {
 
 ---
 
-## Phase 7: Polish & Testing
+## Phase 6: Polish & Testing
 
-### 7.1 Loading States & Error Handling
+### 6.1 Loading States & Error Handling
 **Components**:
 - `src/components/LoadingSpinner.tsx`
 - `src/components/ErrorMessage.tsx`
@@ -337,7 +301,7 @@ type Artwork = {
 
 ---
 
-### 7.2 Accessibility
+### 6.2 Accessibility
 **Checklist**:
 - [ ] All images have alt text (enforced in schema)
 - [ ] Semantic HTML (main, section, article, figure)
@@ -349,7 +313,7 @@ type Artwork = {
 
 ---
 
-### 7.3 Responsive Testing
+### 6.3 Responsive Testing
 **Devices to test**:
 - Mobile: 375px, 414px
 - Tablet: 768px, 1024px
@@ -363,7 +327,7 @@ type Artwork = {
 
 ---
 
-### 7.4 Lighthouse Audit
+### 6.4 Lighthouse Audit
 **Target Scores**:
 - Performance: 90+
 - Accessibility: 95+
@@ -378,7 +342,7 @@ type Artwork = {
 
 ---
 
-### 7.5 Studio Usability Testing
+### 6.5 Studio Usability Testing
 **Test with non-technical user**:
 - [ ] Can they add a new artwork?
 - [ ] Can they upload and crop an image?
@@ -395,9 +359,9 @@ type Artwork = {
 
 ---
 
-## Phase 8: Documentation & Deployment
+## Phase 7: Documentation & Deployment
 
-### 8.1 Code Documentation
+### 7.1 Code Documentation
 **Tasks**:
 - Add JSDoc comments to components
 - Document complex functions
@@ -408,7 +372,7 @@ type Artwork = {
 
 ---
 
-### 8.2 Deployment to Vercel
+### 7.2 Deployment to Vercel
 **Steps**:
 1. Push to GitHub
 2. Connect to Vercel
@@ -436,11 +400,11 @@ type Artwork = {
 10. Add keyboard navigation
 
 **Week 3: Enhancement**
-11. Add category filtering
-12. Implement smooth transitions
-13. Optimize images
-14. Add SEO metadata
-15. Implement loading states
+11. Implement smooth transitions
+12. Optimize images
+13. Add SEO metadata
+14. Implement loading states
+15. Error handling
 
 **Week 4: Polish & Launch**
 16. Accessibility audit
