@@ -103,21 +103,21 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 
 			{/* Artwork content */}
 			<div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
-				<div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
+				<div className="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:gap-12">
 					{/* Image */}
-					<div className="relative aspect-square w-full overflow-hidden rounded-lg bg-neutral-100">
+					<div className="relative aspect-square w-full overflow-hidden rounded-lg bg-neutral-100 lg:col-span-3">
 						<Image
 							src={imageUrl}
 							alt={artwork.image.alt}
 							fill
 							className="object-contain"
-							sizes="(max-width: 1024px) 100vw, 50vw"
+							sizes="(max-width: 1024px) 100vw, 75vw"
 							priority
 						/>
 					</div>
 
 					{/* Metadata */}
-					<div className="flex flex-col">
+					<div className="flex flex-col lg:col-span-1">
 						{/* Title */}
 						<h1 className="font-bold text-3xl text-neutral-900 sm:text-4xl">
 							{artwork.title}
