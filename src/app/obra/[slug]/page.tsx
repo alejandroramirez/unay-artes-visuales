@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArtworkImageViewer } from "~/components/ArtworkImageViewer";
-import { getDetailImageUrl } from "~/sanity/lib/image";
+import { getBlurDataUrl, getDetailImageUrl } from "~/sanity/lib/image";
 import { getAllArtworkSlugs, getArtworkBySlug } from "~/sanity/lib/queries";
 
 interface ArtworkPageProps {
@@ -39,7 +39,7 @@ export async function generateMetadata({
 		};
 	}
 
-	const imageUrl = getDetailImageUrl(artwork.image, 1200);
+	const imageUrl = getDetailImageUrl(artwork.image, 1600);
 
 	return {
 		title: `${artwork.title} | UNAY Artes Visuales`,
@@ -85,7 +85,8 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 		notFound();
 	}
 
-	const imageUrl = getDetailImageUrl(artwork.image, 1920);
+	const imageUrl = getDetailImageUrl(artwork.image, 1600);
+	const blurDataUrl = getBlurDataUrl(artwork.image);
 
 	return (
 		<main className="min-h-screen bg-white">
@@ -105,7 +106,11 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 			<div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
 				<div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
 					{/* Image with full-page view */}
-					<ArtworkImageViewer imageUrl={imageUrl} alt={artwork.image.alt} />
+					<ArtworkImageViewer
+						imageUrl={imageUrl}
+						alt={artwork.image.alt}
+						blurDataUrl={blurDataUrl}
+					/>
 
 					{/* Metadata */}
 					<div className="flex flex-col lg:col-span-1">

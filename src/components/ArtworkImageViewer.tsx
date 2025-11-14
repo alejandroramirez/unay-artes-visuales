@@ -6,14 +6,21 @@ import { useEffect, useState } from "react";
 interface ArtworkImageViewerProps {
 	imageUrl: string;
 	alt: string;
+	blurDataUrl?: string;
 }
 
 /**
  * ArtworkImageViewer component
  * Displays artwork image with click-to-expand full-page view
+ * Shows loading indicator while image loads
  */
-export function ArtworkImageViewer({ imageUrl, alt }: ArtworkImageViewerProps) {
+export function ArtworkImageViewer({
+	imageUrl,
+	alt,
+	blurDataUrl,
+}: ArtworkImageViewerProps) {
 	const [isFullView, setIsFullView] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
 	// Handle ESC key to close full view
 	useEffect(() => {
@@ -42,6 +49,13 @@ export function ArtworkImageViewer({ imageUrl, alt }: ArtworkImageViewerProps) {
 				className="relative aspect-square w-full cursor-zoom-in overflow-hidden rounded-lg bg-neutral-100 lg:col-span-2"
 				onClick={() => setIsFullView(true)}
 			>
+				{/* Loading spinner */}
+				{isLoading && (
+					<div className="absolute inset-0 z-10 flex items-center justify-center">
+						<div className="h-12 w-12 animate-spin rounded-full border-4 border-neutral-300 border-t-neutral-600" />
+					</div>
+				)}
+
 				<Image
 					src={imageUrl}
 					alt={alt}
@@ -49,6 +63,9 @@ export function ArtworkImageViewer({ imageUrl, alt }: ArtworkImageViewerProps) {
 					className="object-contain"
 					sizes="(max-width: 1024px) 100vw, 66vw"
 					priority
+					placeholder={blurDataUrl ? "blur" : "empty"}
+					blurDataURL={blurDataUrl}
+					onLoad={() => setIsLoading(false)}
 				/>
 			</div>
 
@@ -66,6 +83,8 @@ export function ArtworkImageViewer({ imageUrl, alt }: ArtworkImageViewerProps) {
 							className="object-contain"
 							sizes="100vw"
 							priority
+							placeholder={blurDataUrl ? "blur" : "empty"}
+							blurDataURL={blurDataUrl}
 						/>
 					</div>
 				</div>
