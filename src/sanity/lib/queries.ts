@@ -1,5 +1,10 @@
 import { groq } from "next-sanity";
-import type { Artwork, ArtworkGridItem, Category } from "../types";
+import type {
+	Artwork,
+	ArtworkGridItem,
+	Category,
+	CategoryWithArtwork,
+} from "../types";
 import { client } from "./client";
 
 /**
@@ -109,5 +114,77 @@ export async function getAllCategories(): Promise<Category[]> {
       description,
       order
     }`,
+	);
+}
+
+/**
+ * Get all categories that have at least one artwork
+ * Returns categories with artwork count and a random sample image
+ * Used for the homepage category grid
+ */
+export async function getAllCategoriesWithArtwork(): Promise<
+	CategoryWithArtwork[]
+> {
+	return client.fetch<CategoryWithArtwork[]>(
+		groq`*[_type == "category"] {
+      _id,
+      title,
+      slug,
+      description,
+      "artworkCount": count(*[_type == "artwork" && references(^._id)]),
+      "sampleImage": *[_type == "artwork" && references(^._id)] | order(_createdAt desc)[0].image
+    }[artworkCount > 0] | order(title asc)`,
+	);
+}
+
+/**
+ * Get all artwork in a specific category by category slug
+ * Returns artwork ordered by manual order field, then by creation date
+ */
+export async function getArtworksByCategory(
+	categorySlug: string,
+): Promise<ArtworkGridItem[]> {
+	return client.fetch<ArtworkGridItem[]>(
+		groq`*[_type == "artwork" && category->slug.current == $categorySlug] | order(order asc, _createdAt desc) {
+      _id,
+      _type,
+      title,
+      slug,
+      image {
+        asset,
+        alt
+      },
+      autor,
+      "category": category->{
+        _id,
+        title,
+        slug
+      },
+      year,
+      order
+    }`,
+		{ categorySlug },
+	);
+}
+
+/**
+ * Get category by slug
+ * Returns full category details
+ */
+export async function getCategoryBySlug(
+	slug: string,
+): Promise<Category | null> {
+	return client.fetch<Category | null>(
+		groq`*[_type == "category" && slug.current == $slug][0] {
+      _id,
+      _type,
+      _createdAt,
+      _updatedAt,
+      title,
+      slug,
+      description,
+      order
+    }`,
+		{ slug },
 	);
 }

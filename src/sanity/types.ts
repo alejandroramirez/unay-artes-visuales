@@ -61,3 +61,20 @@ export interface ArtworkGridItem {
 	year?: string;
 	order?: number;
 }
+
+/**
+ * Category with artwork count and sample image
+ * Used for the homepage category grid
+ */
+export interface CategoryWithArtwork {
+	_id: string;
+	title: string;
+	slug: {
+		current: string;
+	};
+	description?: string;
+	artworkCount: number;
+	sampleImage?: Image & {
+		alt: string;
+	};
+}
