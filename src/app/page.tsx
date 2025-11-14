@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ArtworkCard } from "~/components/ArtworkCard";
 import { getAllArtwork } from "~/sanity/lib/queries";
 
@@ -29,15 +28,9 @@ export default async function HomePage() {
 				{artworks.length === 0 ? (
 					// Empty state
 					<div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
-						<p className="mb-4 text-neutral-600 text-xl">
+						<p className="text-neutral-600 text-xl">
 							Aún no hay obras en la galería
 						</p>
-						<Link
-							href="/studio"
-							className="rounded-lg bg-neutral-900 px-6 py-3 font-medium text-white transition-colors hover:bg-neutral-800"
-						>
-							Agregar primera obra →
-						</Link>
 					</div>
 				) : (
 					// Responsive grid
@@ -48,18 +41,6 @@ export default async function HomePage() {
 					</div>
 				)}
 			</div>
-
-			{/* Footer with Studio link */}
-			<footer className="mt-16 border-neutral-200 border-t bg-neutral-50">
-				<div className="container mx-auto px-4 py-6 text-center sm:px-6 lg:px-8">
-					<Link
-						href="/studio"
-						className="text-neutral-600 text-sm transition-colors hover:text-neutral-900"
-					>
-						Administrar contenido →
-					</Link>
-				</div>
-			</footer>
 		</main>
 	);
 }
