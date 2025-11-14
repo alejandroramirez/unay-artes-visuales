@@ -90,6 +90,40 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 
 	return (
 		<main className="min-h-screen bg-white">
+			{/* Artwork header */}
+			<div className="border-neutral-200 border-b bg-neutral-50">
+				<div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+					<h1 className="font-bold text-3xl text-neutral-900 sm:text-4xl">
+						{artwork.title}
+					</h1>
+
+					{/* Breadcrumb navigation */}
+					<nav className="mt-3 flex items-center gap-2 text-sm text-neutral-600">
+						<Link href="/" className="transition-colors hover:text-neutral-900">
+							Inicio
+						</Link>
+						<span>/</span>
+						{artwork.category && (
+							<>
+								<Link
+									href={`/categoria/${artwork.category.slug.current}`}
+									className="transition-colors hover:text-neutral-900"
+								>
+									{artwork.category.title}
+								</Link>
+								<span>/</span>
+							</>
+						)}
+						<span className="text-neutral-900">{artwork.title}</span>
+					</nav>
+
+					{/* Author */}
+					{artwork.autor && (
+						<p className="mt-4 text-neutral-700 text-xl">{artwork.autor}</p>
+					)}
+				</div>
+			</div>
+
 			{/* Artwork content */}
 			<div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
 				<div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
@@ -102,38 +136,8 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 
 					{/* Metadata */}
 					<div className="flex flex-col lg:col-span-1">
-						{/* Title */}
-						<h1 className="font-bold text-3xl text-neutral-900 sm:text-4xl">
-							{artwork.title}
-						</h1>
-
-						{/* Breadcrumb navigation */}
-						<nav className="mt-3 flex items-center gap-2 text-sm text-neutral-600">
-							<Link href="/" className="transition-colors hover:text-neutral-900">
-								Inicio
-							</Link>
-							<span>/</span>
-							{artwork.category && (
-								<>
-									<Link
-										href={`/categoria/${artwork.category.slug.current}`}
-										className="transition-colors hover:text-neutral-900"
-									>
-										{artwork.category.title}
-									</Link>
-									<span>/</span>
-								</>
-							)}
-							<span className="text-neutral-900">{artwork.title}</span>
-						</nav>
-
-						{/* Author */}
-						{artwork.autor && (
-							<p className="mt-4 text-neutral-700 text-xl">{artwork.autor}</p>
-						)}
-
 						{/* Basic info */}
-						<div className="mt-4 space-y-2">
+						<div className="space-y-2">
 							{artwork.category && (
 								<p className="text-neutral-600">
 									<span className="font-medium">Categoría:</span>{" "}
