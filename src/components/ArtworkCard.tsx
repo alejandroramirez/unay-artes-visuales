@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
 import { getGridImageUrl } from "~/sanity/lib/image";
 import type { ArtworkGridItem } from "~/sanity/types";
 
@@ -11,14 +14,29 @@ interface ArtworkCardProps {
  * ArtworkCard component for gallery grid
  * Displays artwork thumbnail with title and metadata
  * Optimized for performance with Next.js Image and lazy loading
+ * Shows loading feedback during navigation
  */
 export function ArtworkCard({ artwork }: ArtworkCardProps) {
 	const imageUrl = getGridImageUrl(artwork.image, 800);
+	const router = useRouter();
+	const [isPending, startTransition] = useTransition();
+	const [isNavigating, setIsNavigating] = useState(false);
+
+	const handleClick = () => {
+		setIsNavigating(true);
+		startTransition(() => {
+			router.push(`/obra/${artwork.slug.current}`);
+		});
+	};
+
+	const isLoading = isPending || isNavigating;
 
 	return (
-		<Link
-			href={`/obra/${artwork.slug.current}`}
-			className="group relative block overflow-hidden rounded-lg bg-neutral-100 transition-transform duration-300 hover:scale-[1.02]"
+		<div
+			onClick={handleClick}
+			className={`group relative block cursor-pointer overflow-hidden rounded-lg bg-neutral-100 transition-all duration-300 hover:scale-[1.02] ${
+				isLoading ? "pointer-events-none opacity-60" : ""
+			}`}
 		>
 			{/* Image container with aspect ratio */}
 			<div className="relative aspect-square w-full overflow-hidden">
@@ -33,6 +51,13 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
 
 				{/* Overlay on hover */}
 				<div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/10" />
+
+				{/* Loading spinner */}
+				{isLoading && (
+					<div className="absolute inset-0 z-10 flex items-center justify-center bg-white/20 backdrop-blur-sm">
+						<div className="h-8 w-8 animate-spin rounded-full border-3 border-white/30 border-t-white" />
+					</div>
+				)}
 			</div>
 
 			{/* Metadata */}
@@ -55,6 +80,6 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
 					</p>
 				)}
 			</div>
-		</Link>
+		</div>
 	);
 }
