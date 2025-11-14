@@ -90,27 +90,6 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 
 	return (
 		<main className="min-h-screen bg-white">
-			{/* Header with back navigation */}
-			<header className="border-neutral-200 border-b bg-white">
-				<div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
-					{artwork.category ? (
-						<Link
-							href={`/categoria/${artwork.category.slug.current}`}
-							className="inline-flex items-center text-neutral-600 text-sm transition-colors hover:text-neutral-900"
-						>
-							← Volver a {artwork.category.title}
-						</Link>
-					) : (
-						<Link
-							href="/"
-							className="inline-flex items-center text-neutral-600 text-sm transition-colors hover:text-neutral-900"
-						>
-							← Volver a categorías
-						</Link>
-					)}
-				</div>
-			</header>
-
 			{/* Artwork content */}
 			<div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
 				<div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">

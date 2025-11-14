@@ -53,18 +53,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
 	return (
 		<main className="min-h-screen bg-white">
-			{/* Header with back navigation */}
-			<header className="border-neutral-200 border-b bg-white">
-				<div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
-					<Link
-						href="/"
-						className="inline-flex items-center text-neutral-600 text-sm transition-colors hover:text-neutral-900"
-					>
-						← Volver a categorías
-					</Link>
-				</div>
-			</header>
-
 			{/* Category header */}
 			<div className="border-neutral-200 border-b bg-neutral-50">
 				<div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
