@@ -10,15 +10,19 @@ interface ArtworkPageProps {
 	params: Promise<{ slug: string }>;
 }
 
+// Force dynamic rendering to always fetch fresh data from Sanity
+export const dynamic = "force-dynamic";
+
 /**
- * Generate static paths for all artwork at build time
+ * generateStaticParams is disabled for dynamic rendering
+ * All artwork pages are now rendered on-demand with fresh data
  */
-export async function generateStaticParams() {
-	const slugs = await getAllArtworkSlugs();
-	return slugs.map((slug) => ({
-		slug,
-	}));
-}
+// export async function generateStaticParams() {
+// 	const slugs = await getAllArtworkSlugs();
+// 	return slugs.map((slug) => ({
+// 		slug,
+// 	}));
+// }
 
 /**
  * Generate metadata for SEO

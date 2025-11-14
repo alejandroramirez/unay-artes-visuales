@@ -2,10 +2,13 @@ import Link from "next/link";
 import { ArtworkCard } from "~/components/ArtworkCard";
 import { getAllArtwork } from "~/sanity/lib/queries";
 
+// Force dynamic rendering to always fetch fresh data from Sanity
+export const dynamic = "force-dynamic";
+
 /**
  * Homepage - Gallery Grid
  * Displays all artwork in a responsive masonry-style grid
- * Server component that fetches data at build time
+ * Server component that fetches fresh data on every request
  */
 export default async function HomePage() {
 	const artworks = await getAllArtwork();
