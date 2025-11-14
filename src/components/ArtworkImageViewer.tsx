@@ -21,6 +21,19 @@ export function ArtworkImageViewer({
 }: ArtworkImageViewerProps) {
 	const [isFullView, setIsFullView] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
+	const [isAnimatingIn, setIsAnimatingIn] = useState(false);
+
+	// Trigger animation when full view opens
+	useEffect(() => {
+		if (isFullView) {
+			// Small delay to trigger CSS transition
+			requestAnimationFrame(() => {
+				setIsAnimatingIn(true);
+			});
+		} else {
+			setIsAnimatingIn(false);
+		}
+	}, [isFullView]);
 
 	// Handle ESC key to close full view
 	useEffect(() => {
@@ -72,10 +85,16 @@ export function ArtworkImageViewer({
 			{/* Full-page view overlay */}
 			{isFullView && (
 				<div
-					className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+					className={`fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 transition-opacity duration-300 ${
+						isAnimatingIn ? "opacity-100" : "opacity-0"
+					}`}
 					onClick={() => setIsFullView(false)}
 				>
-					<div className="relative h-full w-full">
+					<div
+						className={`relative h-full w-full transition-transform duration-300 ${
+							isAnimatingIn ? "scale-100" : "scale-95"
+						}`}
+					>
 						<Image
 							src={imageUrl}
 							alt={alt}
