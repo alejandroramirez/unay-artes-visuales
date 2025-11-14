@@ -21,7 +21,7 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
 			className="group relative block overflow-hidden rounded-lg bg-neutral-100 transition-transform duration-300 hover:scale-[1.02]"
 		>
 			{/* Image container with aspect ratio */}
-			<div className="relative aspect-[4/5] w-full overflow-hidden">
+			<div className="relative aspect-square w-full overflow-hidden">
 				<Image
 					src={imageUrl}
 					alt={artwork.image.alt}
