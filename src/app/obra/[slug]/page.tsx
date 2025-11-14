@@ -86,7 +86,7 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 	}
 
 	const imageUrl = getDetailImageUrl(artwork.image, 1600);
-	const blurDataUrl = getBlurDataUrl(artwork.image);
+	const blurDataUrl = await getBlurDataUrl(artwork.image);
 
 	return (
 		<main className="min-h-screen bg-white">
