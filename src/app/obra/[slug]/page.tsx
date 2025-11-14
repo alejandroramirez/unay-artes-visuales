@@ -93,12 +93,21 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 			{/* Header with back navigation */}
 			<header className="border-neutral-200 border-b bg-white">
 				<div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
-					<Link
-						href="/"
-						className="inline-flex items-center text-neutral-600 text-sm transition-colors hover:text-neutral-900"
-					>
-						← Volver a la galería
-					</Link>
+					{artwork.category ? (
+						<Link
+							href={`/categoria/${artwork.category.slug.current}`}
+							className="inline-flex items-center text-neutral-600 text-sm transition-colors hover:text-neutral-900"
+						>
+							← Volver a {artwork.category.title}
+						</Link>
+					) : (
+						<Link
+							href="/"
+							className="inline-flex items-center text-neutral-600 text-sm transition-colors hover:text-neutral-900"
+						>
+							← Volver a categorías
+						</Link>
+					)}
 				</div>
 			</header>
 
@@ -119,9 +128,29 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 							{artwork.title}
 						</h1>
 
+						{/* Breadcrumb navigation */}
+						<nav className="mt-3 flex items-center gap-2 text-sm text-neutral-600">
+							<Link href="/" className="transition-colors hover:text-neutral-900">
+								Inicio
+							</Link>
+							<span>/</span>
+							{artwork.category && (
+								<>
+									<Link
+										href={`/categoria/${artwork.category.slug.current}`}
+										className="transition-colors hover:text-neutral-900"
+									>
+										{artwork.category.title}
+									</Link>
+									<span>/</span>
+								</>
+							)}
+							<span className="text-neutral-900">{artwork.title}</span>
+						</nav>
+
 						{/* Author */}
 						{artwork.autor && (
-							<p className="mt-2 text-neutral-700 text-xl">{artwork.autor}</p>
+							<p className="mt-4 text-neutral-700 text-xl">{artwork.autor}</p>
 						)}
 
 						{/* Basic info */}

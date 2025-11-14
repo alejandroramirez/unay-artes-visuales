@@ -71,8 +71,18 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 					<h1 className="font-bold text-3xl text-neutral-900 sm:text-4xl">
 						{category.title}
 					</h1>
+
+					{/* Breadcrumb navigation */}
+					<nav className="mt-3 flex items-center gap-2 text-sm text-neutral-600">
+						<Link href="/" className="transition-colors hover:text-neutral-900">
+							Inicio
+						</Link>
+						<span>/</span>
+						<span className="text-neutral-900">{category.title}</span>
+					</nav>
+
 					{category.description && (
-						<p className="mt-2 text-neutral-600">{category.description}</p>
+						<p className="mt-4 text-neutral-600">{category.description}</p>
 					)}
 					<p className="mt-2 text-neutral-500 text-sm">
 						{artworks.length} {artworks.length === 1 ? "obra" : "obras"}
