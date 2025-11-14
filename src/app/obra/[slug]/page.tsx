@@ -1,8 +1,8 @@
 import { PortableText } from "@portabletext/react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArtworkImageViewer } from "~/components/ArtworkImageViewer";
 import { getDetailImageUrl } from "~/sanity/lib/image";
 import { getAllArtworkSlugs, getArtworkBySlug } from "~/sanity/lib/queries";
 
@@ -104,17 +104,8 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 			{/* Artwork content */}
 			<div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
 				<div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
-					{/* Image */}
-					<div className="relative aspect-square w-full overflow-hidden rounded-lg bg-neutral-100 lg:col-span-2">
-						<Image
-							src={imageUrl}
-							alt={artwork.image.alt}
-							fill
-							className="object-contain"
-							sizes="(max-width: 1024px) 100vw, 66vw"
-							priority
-						/>
-					</div>
+					{/* Image with full-page view */}
+					<ArtworkImageViewer imageUrl={imageUrl} alt={artwork.image.alt} />
 
 					{/* Metadata */}
 					<div className="flex flex-col lg:col-span-1">
