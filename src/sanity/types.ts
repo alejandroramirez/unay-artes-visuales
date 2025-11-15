@@ -73,6 +73,7 @@ export interface CategoryWithArtwork {
 		current: string;
 	};
 	description?: string;
+	order?: number;
 	artworkCount: number;
 	sampleImage?: Image & {
 		alt: string;
