@@ -73,19 +73,17 @@ async function migrateType(type: "artwork" | "category") {
 
 async function migrate() {
 	console.log("🔄 Starting orderRank migration...");
-	console.log("This will preserve your existing order while enabling drag-and-drop\n");
+	console.log(
+		"This will preserve your existing order while enabling drag-and-drop\n",
+	);
 
 	try {
 		// Check for API token
 		if (!process.env.SANITY_API_TOKEN) {
 			console.error("❌ Error: SANITY_API_TOKEN not found in .env.local");
-			console.log(
-				"\nPlease add your Sanity API token to .env.local:",
-			);
+			console.log("\nPlease add your Sanity API token to .env.local:");
 			console.log("SANITY_API_TOKEN=your_token_here");
-			console.log(
-				"\nYou can create a token at: https://www.sanity.io/manage",
-			);
+			console.log("\nYou can create a token at: https://www.sanity.io/manage");
 			process.exit(1);
 		}
 
