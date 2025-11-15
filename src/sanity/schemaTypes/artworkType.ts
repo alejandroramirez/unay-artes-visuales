@@ -66,6 +66,20 @@ export const artworkType = defineType({
 			description: 'Category or collection (e.g., "Grabados", "Pinturas")',
 		}),
 		defineField({
+			name: "apartado",
+			title: "Apartado",
+			type: "string",
+			description: "Main classification of the artwork",
+			options: {
+				list: [
+					{ title: "Pintura", value: "Pintura" },
+					{ title: "Fotografía", value: "Fotografía" },
+					{ title: "Gráfica", value: "Gráfica" },
+				],
+				layout: "dropdown",
+			},
+		}),
+		defineField({
 			name: "year",
 			title: "Year",
 			type: "string",
@@ -98,7 +112,8 @@ export const artworkType = defineType({
 			name: "orderRank",
 			title: "Order Rank",
 			type: "string",
-			description: "Used for drag-and-drop ordering in Studio (managed automatically)",
+			description:
+				"Used for drag-and-drop ordering in Studio (managed automatically)",
 			hidden: true, // Hide from editors since it's managed by the plugin
 		}),
 	],
@@ -107,12 +122,13 @@ export const artworkType = defineType({
 			title: "title",
 			media: "image",
 			category: "category.title",
+			apartado: "apartado",
 			year: "year",
 		},
-		prepare({ title, media, category, year }) {
+		prepare({ title, media, category, apartado, year }) {
 			return {
 				title: title,
-				subtitle: [category, year].filter(Boolean).join(" • "),
+				subtitle: [apartado, category, year].filter(Boolean).join(" • "),
 				media: media,
 			};
 		},
