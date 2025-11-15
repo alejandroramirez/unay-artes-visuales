@@ -74,9 +74,12 @@ async function assignOrderRankToNew(type: "artwork" | "category") {
 
 	if (documentsWithRank.length > 0) {
 		// Start after the last existing rank
-		const lastRank = documentsWithRank[documentsWithRank.length - 1].orderRank!;
-		lexoRank = LexoRank.parse(lastRank);
-		console.log(`  📍 Last existing orderRank: ${lastRank}`);
+		const lastDoc = documentsWithRank[documentsWithRank.length - 1];
+		if (!lastDoc?.orderRank) {
+			throw new Error("Last document is missing orderRank");
+		}
+		lexoRank = LexoRank.parse(lastDoc.orderRank);
+		console.log(`  📍 Last existing orderRank: ${lastDoc.orderRank}`);
 		console.log(`  📝 New documents will be added after existing ones`);
 	} else {
 		// No existing ranks, start from minimum

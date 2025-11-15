@@ -93,11 +93,13 @@ interface ImageAsset {
  */
 function getTimestamp(): string {
 	const now = new Date();
-	return now
-		.toISOString()
-		.replace(/[:.]/g, "-")
-		.replace(/T/, "_")
-		.split("Z")[0];
+	return (
+		now
+			.toISOString()
+			.replace(/[:.]/g, "-")
+			.replace(/T/, "_")
+			.split("Z")[0] || ""
+	);
 }
 
 /**
@@ -189,6 +191,7 @@ async function downloadImages(
 
 	for (let i = 0; i < imageAssets.length; i++) {
 		const asset = imageAssets[i];
+		if (!asset) continue;
 
 		if (!asset.url) {
 			console.log(`   ⚠️  Skipping ${asset._id} (no URL)`);

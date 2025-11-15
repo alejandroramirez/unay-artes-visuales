@@ -175,7 +175,13 @@ function transformData(inputFile: string, outputDir: string): void {
 	// Read the Excel file
 	const workbook = XLSX.readFile(inputFile);
 	const sheetName = workbook.SheetNames[0];
+	if (!sheetName) {
+		throw new Error("No sheets found in Excel file");
+	}
 	const worksheet = workbook.Sheets[sheetName];
+	if (!worksheet) {
+		throw new Error(`Worksheet "${sheetName}" not found`);
+	}
 
 	// Convert to JSON (only first 8 columns as specified)
 	const rawData: ExcelRow[] = XLSX.utils.sheet_to_json(worksheet);
