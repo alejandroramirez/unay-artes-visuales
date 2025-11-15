@@ -119,7 +119,7 @@ export async function getAllCategories(): Promise<Category[]> {
 
 /**
  * Get all categories that have at least one artwork
- * Returns categories with artwork count and a random sample image
+ * Returns categories with artwork count and the first artwork image (by order)
  * Used for the homepage category grid
  */
 export async function getAllCategoriesWithArtwork(): Promise<
@@ -132,7 +132,7 @@ export async function getAllCategoriesWithArtwork(): Promise<
       slug,
       description,
       "artworkCount": count(*[_type == "artwork" && references(^._id)]),
-      "sampleImage": *[_type == "artwork" && references(^._id)] | order(_createdAt desc)[0].image
+      "sampleImage": *[_type == "artwork" && references(^._id)] | order(order asc, _createdAt desc)[0].image
     }[artworkCount > 0] | order(title asc)`,
 	);
 }
