@@ -1,0 +1,7 @@
+# Ignore generated data files (they can be regenerated from source Excel files)
+*.json
+*.ndjson
+*.csv
+
+# Keep the README
+!README.md

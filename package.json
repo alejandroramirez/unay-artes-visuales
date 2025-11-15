@@ -4,16 +4,19 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
+		"backup:sanity": "tsx scripts/backup-sanity-data.ts",
 		"build": "next build",
 		"check": "biome check .",
 		"check:unsafe": "biome check --write --unsafe .",
 		"check:write": "biome check --write .",
 		"clean": "tsx scripts/clean.ts",
 		"dev": "next dev --turbo",
+		"import:data": "tsx scripts/import-from-excel.ts",
 		"migrate:orderrank": "tsx scripts/migrate-to-orderrank.ts",
 		"preview": "next build && next start",
 		"seed": "tsx scripts/seed.ts",
 		"start": "next start",
+		"transform:data": "tsx scripts/transform-excel-data.ts",
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
@@ -31,6 +34,7 @@
 		"react-dom": "^19.2.0",
 		"sanity": "^4.10.2",
 		"styled-components": "^6.1.19",
+		"xlsx": "^0.18.5",
 		"zod": "^3.24.2"
 	},
 	"devDependencies": {
