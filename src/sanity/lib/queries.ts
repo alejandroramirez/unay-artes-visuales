@@ -133,7 +133,7 @@ export async function getAllCategoriesWithArtwork(): Promise<
       description,
       "artworkCount": count(*[_type == "artwork" && references(^._id)]),
       "sampleImage": *[_type == "artwork" && references(^._id)] | order(order asc, _createdAt desc)[0].image
-    }[artworkCount > 0] | order(title asc)`,
+    }[artworkCount > 0] | order(order asc, title asc)`,
 	);
 }
 
