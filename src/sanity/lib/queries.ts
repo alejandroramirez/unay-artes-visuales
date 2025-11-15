@@ -18,11 +18,11 @@ import { client } from "./client";
 
 /**
  * Get all artwork for the gallery grid
- * Returns artwork ordered by manual order field, then by creation date
+ * Returns artwork ordered by drag-and-drop order (orderRank), then by creation date
  */
 export async function getAllArtwork(): Promise<ArtworkGridItem[]> {
 	return client.fetch<ArtworkGridItem[]>(
-		groq`*[_type == "artwork"] | order(order asc, _createdAt desc) {
+		groq`*[_type == "artwork"] | order(orderRank asc, _createdAt desc) {
       _id,
       _type,
       title,
@@ -100,11 +100,11 @@ export async function getAllArtworkSlugs(): Promise<string[]> {
 
 /**
  * Get all categories
- * Returns categories ordered by manual order field, then alphabetically
+ * Returns categories ordered by drag-and-drop order (orderRank), then alphabetically
  */
 export async function getAllCategories(): Promise<Category[]> {
 	return client.fetch<Category[]>(
-		groq`*[_type == "category"] | order(order asc, title asc) {
+		groq`*[_type == "category"] | order(orderRank asc, title asc) {
       _id,
       _type,
       _createdAt,
@@ -133,20 +133,20 @@ export async function getAllCategoriesWithArtwork(): Promise<
       description,
       order,
       "artworkCount": count(*[_type == "artwork" && references(^._id)]),
-      "sampleImage": *[_type == "artwork" && references(^._id)] | order(order asc, _createdAt desc)[0].image
-    }[artworkCount > 0] | order(order asc, title asc)`,
+      "sampleImage": *[_type == "artwork" && references(^._id)] | order(orderRank asc, _createdAt desc)[0].image
+    }[artworkCount > 0] | order(orderRank asc, title asc)`,
 	);
 }
 
 /**
  * Get all artwork in a specific category by category slug
- * Returns artwork ordered by manual order field, then by creation date
+ * Returns artwork ordered by drag-and-drop order (orderRank), then by creation date
  */
 export async function getArtworksByCategory(
 	categorySlug: string,
 ): Promise<ArtworkGridItem[]> {
 	return client.fetch<ArtworkGridItem[]>(
-		groq`*[_type == "artwork" && category->slug.current == $categorySlug] | order(order asc, _createdAt desc) {
+		groq`*[_type == "artwork" && category->slug.current == $categorySlug] | order(orderRank asc, _createdAt desc) {
       _id,
       _type,
       title,

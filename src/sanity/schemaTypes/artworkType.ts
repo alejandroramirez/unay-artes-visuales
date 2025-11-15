@@ -93,6 +93,13 @@ export const artworkType = defineType({
 				"Order in which this artwork appears in the gallery (lower numbers appear first)",
 			validation: (Rule) => Rule.integer().min(0),
 		}),
+		defineField({
+			name: "orderRank",
+			title: "Order Rank",
+			type: "string",
+			description: "Used for drag-and-drop ordering in Studio (managed automatically)",
+			hidden: true, // Hide from editors since it's managed by the plugin
+		}),
 	],
 	preview: {
 		select: {
