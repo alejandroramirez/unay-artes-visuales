@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArtworkCard } from "~/components/ArtworkCard";
-import {
-	getArtworksByCategory,
-	getCategoryBySlug,
-} from "~/sanity/lib/queries";
+import { getArtworksByCategory, getCategoryBySlug } from "~/sanity/lib/queries";
 
 interface CategoryPageProps {
 	params: Promise<{ slug: string }>;
@@ -61,7 +58,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 					</h1>
 
 					{/* Breadcrumb navigation */}
-					<nav className="mt-3 flex items-center gap-2 text-sm text-neutral-600">
+					<nav className="mt-3 flex items-center gap-2 text-neutral-600 text-sm">
 						<Link href="/" className="transition-colors hover:text-neutral-900">
 							Inicio
 						</Link>

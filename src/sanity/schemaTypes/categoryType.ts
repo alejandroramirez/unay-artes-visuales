@@ -45,7 +45,8 @@ export const categoryType = defineType({
 			name: "orderRank",
 			title: "Order Rank",
 			type: "string",
-			description: "Used for drag-and-drop ordering in Studio (managed automatically)",
+			description:
+				"Used for drag-and-drop ordering in Studio (managed automatically)",
 			hidden: true, // Hide from editors since it's managed by the plugin
 		}),
 	],
