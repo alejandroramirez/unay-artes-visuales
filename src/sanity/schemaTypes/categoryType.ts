@@ -39,6 +39,7 @@ export const categoryType = defineType({
 			description:
 				"Order in which this category appears (lower numbers appear first)",
 			validation: (Rule) => Rule.integer().min(0),
+			hidden: true, // Hidden - ordering is now managed by drag-and-drop
 		}),
 		defineField({
 			name: "orderRank",

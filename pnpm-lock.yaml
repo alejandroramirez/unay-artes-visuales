@@ -33,6 +33,9 @@ importers:
       '@t3-oss/env-nextjs':
         specifier: ^0.12.0
         version: 0.12.0(typescript@5.9.3)(valibot@1.1.0(typescript@5.9.3))(zod@3.25.76)
+      lexorank:
+        specifier: ^1.0.5
+        version: 1.0.5
       next:
         specifier: ^15.2.3
         version: 15.5.4(@babel/core@7.28.4)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)

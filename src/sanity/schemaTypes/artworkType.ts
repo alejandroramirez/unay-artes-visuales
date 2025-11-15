@@ -92,6 +92,7 @@ export const artworkType = defineType({
 			description:
 				"Order in which this artwork appears in the gallery (lower numbers appear first)",
 			validation: (Rule) => Rule.integer().min(0),
+			hidden: true, // Hidden - ordering is now managed by drag-and-drop
 		}),
 		defineField({
 			name: "orderRank",

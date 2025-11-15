@@ -132,6 +132,7 @@ export async function getAllCategoriesWithArtwork(): Promise<
       slug,
       description,
       order,
+      orderRank,
       "artworkCount": count(*[_type == "artwork" && references(^._id)]),
       "sampleImage": *[_type == "artwork" && references(^._id)] | order(orderRank asc, _createdAt desc)[0].image
     }[artworkCount > 0] | order(orderRank asc, title asc)`,
