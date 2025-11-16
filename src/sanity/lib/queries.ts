@@ -213,7 +213,7 @@ export async function getAllCategoriesWithArtwork(): Promise<
       )
     }[artworkCount > 0] | order(orderRank asc, title asc)`,
 		{},
-		{ cache: "force-cache" },
+		{ next: { revalidate: 60 } },
 	);
 }
 

@@ -32,6 +32,10 @@ export async function POST(req: NextRequest) {
 
 		// Revalidate based on content type
 		if (body._type === "artwork") {
+			// Revalidate homepage (shows categories with sample images from artwork)
+			revalidatePath("/");
+			console.log("Revalidated homepage (artwork updated)");
+
 			// Revalidate specific artwork page if slug provided
 			if (body.slug?.current) {
 				revalidatePath(`/obra/${body.slug.current}`);
@@ -48,9 +52,7 @@ export async function POST(req: NextRequest) {
 				);
 			}
 
-			console.log(
-				`Artwork updated: ${body.slug?.current || "unknown"} (homepage NOT revalidated)`,
-			);
+			console.log(`Artwork updated: ${body.slug?.current || "unknown"}`);
 		} else if (body._type === "category") {
 			// Revalidate homepage (shows categories)
 			revalidatePath("/");
