@@ -42,12 +42,19 @@ export const categoryType = defineType({
 			options: {
 				filter: ({ document }) => {
 					// Only show artworks that belong to this category
-					if (!document._id) {
+					const docId = document._id;
+					if (!docId) {
 						return { filter: '_type == "artwork"' };
 					}
+					// Strip the drafts. prefix if present to get the base ID
+					const baseId = docId.replace("drafts.", "");
 					return {
-						filter: '_type == "artwork" && references($categoryId)',
-						params: { categoryId: document._id },
+						filter:
+							'_type == "artwork" && category._ref in [$categoryId, $baseId]',
+						params: {
+							categoryId: docId,
+							baseId: baseId,
+						},
 					};
 				},
 			},
