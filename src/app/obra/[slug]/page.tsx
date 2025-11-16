@@ -108,7 +108,7 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 							{/* Breadcrumb navigation */}
 							{artwork.category && (
 								<nav
-									className="mb-3 flex items-center gap-2 text-sm"
+									className="mb-4 flex items-center gap-2 text-sm"
 									style={{ color: "#999999" }}
 								>
 									<Link href="/" className="transition-opacity hover:opacity-70">
