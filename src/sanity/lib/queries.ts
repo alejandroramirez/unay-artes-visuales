@@ -47,6 +47,47 @@ export async function getAllArtwork(): Promise<ArtworkGridItem[]> {
 }
 
 /**
+ * Get all artwork for printing labels
+ * Returns complete artwork information including dimensions and medium
+ * Ordered by drag-and-drop order (orderRank), then by creation date
+ */
+export async function getAllArtworkForLabels(): Promise<
+	Omit<Artwork, "description">[]
+> {
+	return client.fetch<Omit<Artwork, "description">[]>(
+		groq`*[_type == "artwork"] | order(orderRank asc, _createdAt desc) {
+      _id,
+      _type,
+      _createdAt,
+      _updatedAt,
+      title,
+      slug,
+      image {
+        asset,
+        alt
+      },
+      autor,
+      "category": category->{
+        _id,
+        _type,
+        _createdAt,
+        _updatedAt,
+        title,
+        slug,
+        description,
+        order
+      },
+      year,
+      dimensions,
+      medium,
+      order
+    }`,
+		{},
+		{ cache: "force-cache" },
+	);
+}
+
+/**
  * Get a single artwork by its slug
  * Returns full artwork details including description for detail view
  */
