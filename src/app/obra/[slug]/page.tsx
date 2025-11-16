@@ -4,7 +4,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArtworkImageViewer } from "~/components/ArtworkImageViewer";
 import { ArtworkNavigation } from "~/components/ArtworkNavigation";
-import { BackToCategoryLink } from "~/components/BackToCategoryLink";
 import { getBlurDataUrl, getDetailImageUrl } from "~/sanity/lib/image";
 import {
 	getArtworkBySlug,
@@ -97,14 +96,36 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 
 					{/* Metadata */}
 					<div className="flex flex-col lg:col-span-1">
-						{/* Title and Author */}
+						{/* Title and Breadcrumb */}
 						<div className="mb-8">
 							<h1
-								className="mb-2 text-2xl tracking-tight sm:text-3xl"
+								className="mb-3 text-2xl tracking-tight sm:text-3xl"
 								style={{ color: "#1a1a1a" }}
 							>
 								{artwork.title}
 							</h1>
+
+							{/* Breadcrumb navigation */}
+							{artwork.category && (
+								<nav
+									className="mb-3 flex items-center gap-2 text-sm"
+									style={{ color: "#999999" }}
+								>
+									<Link href="/" className="transition-opacity hover:opacity-70">
+										Inicio
+									</Link>
+									<span>/</span>
+									<Link
+										href={`/categoria/${artwork.category.slug.current}`}
+										className="transition-opacity hover:opacity-70"
+									>
+										{artwork.category.title}
+									</Link>
+									<span>/</span>
+									<span style={{ color: "#1a1a1a" }}>{artwork.title}</span>
+								</nav>
+							)}
+
 							{artwork.autor && (
 								<p className="text-base" style={{ color: "#666666" }}>
 									{artwork.autor}
@@ -186,14 +207,6 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 								</div>
 							</div>
 						)}
-
-						{/* Back to category */}
-						<div
-							className="mt-8 border-t pt-6"
-							style={{ borderColor: "#e5e5e5" }}
-						>
-							<BackToCategoryLink defaultCategory={artwork.category} />
-						</div>
 					</div>
 				</div>
 			</div>
