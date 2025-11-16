@@ -113,7 +113,9 @@ async function assignOrderRankToNew(type: "artwork" | "category") {
 
 async function main() {
 	console.log("🔄 Assigning orderRank to new documents...");
-	console.log("This will preserve existing order and add new documents at the end\n");
+	console.log(
+		"This will preserve existing order and add new documents at the end\n",
+	);
 
 	try {
 		// Check for API token

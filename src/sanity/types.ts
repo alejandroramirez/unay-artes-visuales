@@ -57,6 +57,9 @@ export interface ArtworkGridItem {
 	category?: {
 		_id: string;
 		title: string;
+		slug: {
+			current: string;
+		};
 	};
 	year?: string;
 	order?: number;

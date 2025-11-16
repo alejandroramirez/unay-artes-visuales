@@ -12,7 +12,7 @@ interface CategoryCardProps {
 
 /**
  * CategoryCard component for category grid on homepage
- * Displays category with blurred background image and title overlay
+ * Displays category with sample image and text below
  * Shows loading feedback during navigation
  */
 export function CategoryCard({ category }: CategoryCardProps) {
@@ -37,46 +37,48 @@ export function CategoryCard({ category }: CategoryCardProps) {
 	return (
 		<div
 			onClick={handleClick}
-			className={`group relative block aspect-square cursor-pointer overflow-hidden rounded-lg bg-neutral-200 transition-all duration-300 hover:scale-[1.02] ${
+			className={`group relative block cursor-pointer transition-opacity duration-300 hover:opacity-90 ${
 				isLoading ? "pointer-events-none opacity-60" : ""
 			}`}
 		>
-			{/* Background image (blurred) */}
-			{imageUrl && (
-				<div className="absolute inset-0">
+			{/* Image container with aspect ratio */}
+			<div className="relative aspect-square w-full overflow-hidden">
+				{imageUrl ? (
 					<Image
 						src={imageUrl}
 						alt={category.title}
 						fill
-						className="object-cover transition-transform duration-500 group-hover:scale-105"
-						sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+						className="object-cover"
+						sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
 						loading="lazy"
 					/>
-					{/* Blur effect */}
-					<div className="absolute inset-0 backdrop-blur-md" />
-				</div>
-			)}
+				) : (
+					<div className="absolute inset-0 bg-neutral-100" />
+				)}
 
-			{/* Dark overlay for text contrast */}
-			<div className="absolute inset-0 bg-black/40 transition-colors duration-300 group-hover:bg-black/50" />
+				{/* Loading spinner */}
+				{isLoading && (
+					<div className="absolute inset-0 z-10 flex items-center justify-center bg-white/90">
+						<div
+							className="h-8 w-8 animate-spin rounded-full border-3 border-t-transparent"
+							style={{ borderColor: "#1a1a1a", borderTopColor: "transparent" }}
+						/>
+					</div>
+				)}
+			</div>
 
-			{/* Content */}
-			<div className="relative flex h-full flex-col items-center justify-center p-6 text-center">
-				<h2 className="font-bold text-2xl text-white drop-shadow-lg sm:text-3xl">
+			{/* Metadata */}
+			<div className="pt-3">
+				<h3 className="line-clamp-1 text-sm" style={{ color: "#1a1a1a" }}>
 					{category.title}
-				</h2>
-				<p className="mt-2 text-sm text-white/90 drop-shadow">
+				</h3>
+
+				{/* Artwork count */}
+				<p className="mt-1 text-sm" style={{ color: "#999999" }}>
 					{category.artworkCount}{" "}
 					{category.artworkCount === 1 ? "obra" : "obras"}
 				</p>
 			</div>
-
-			{/* Loading spinner */}
-			{isLoading && (
-				<div className="absolute inset-0 z-10 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-					<div className="h-12 w-12 animate-spin rounded-full border-4 border-white/30 border-t-white" />
-				</div>
-			)}
 		</div>
 	);
 }

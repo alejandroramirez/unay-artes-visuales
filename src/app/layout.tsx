@@ -1,23 +1,24 @@
 import "~/styles/globals.css";
 
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Inter } from "next/font/google";
 
 export const metadata: Metadata = {
-	title: "UNAY Artes Visuales",
-	description: "Portafolio de arte visual",
+	title: "Universidad de las Artes de Yucatán - Grupo Primero A",
+	description: "Portafolio de arte visual - Grupo Primero A",
 };
 
-const geist = Geist({
+const inter = Inter({
 	subsets: ["latin"],
-	variable: "--font-geist-sans",
+	variable: "--font-inter",
+	weight: ["400", "500", "600"],
 });
 
 export default function RootLayout({
 	children,
 }: Readonly<{ children: React.ReactNode }>) {
 	return (
-		<html lang="es-MX" className={`${geist.variable}`}>
+		<html lang="es-MX" className={`${inter.variable}`}>
 			<body>{children}</body>
 		</html>
 	);

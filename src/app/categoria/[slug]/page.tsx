@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArtworkCard } from "~/components/ArtworkCard";
+import { CategoryScrollRestorer } from "~/components/CategoryScrollRestorer";
 import { getArtworksByCategory, getCategoryBySlug } from "~/sanity/lib/queries";
 
 interface CategoryPageProps {
 	params: Promise<{ slug: string }>;
 }
 
-// Force dynamic rendering to always fetch fresh data from Sanity
-export const dynamic = "force-dynamic";
+// Enable ISR with 60 second revalidation
+export const revalidate = 60;
 
 /**
  * Generate metadata for SEO
@@ -27,7 +28,7 @@ export async function generateMetadata({
 	}
 
 	return {
-		title: `${category.title} | UNAY Artes Visuales`,
+		title: `${category.title} | Universidad de las Artes de Yucatán`,
 		description:
 			category.description ||
 			`Explora las obras de la categoría ${category.title}`,
@@ -50,49 +51,59 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
 	return (
 		<main className="min-h-screen bg-white">
-			{/* Category header */}
-			<div className="border-neutral-200 border-b bg-neutral-50">
-				<div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
-					<h1 className="font-bold text-3xl text-neutral-900 sm:text-4xl">
+			{/* Restore scroll position when returning from artwork detail */}
+			<CategoryScrollRestorer categorySlug={slug} />
+
+			{/* Artwork Grid */}
+			<div className="container mx-auto px-3 py-12 sm:px-6 sm:py-16 lg:px-12 lg:py-20">
+				{/* Category header */}
+				<div className="mb-12">
+					<h1
+						className="mb-3 text-2xl tracking-tight sm:text-3xl"
+						style={{ color: "#1a1a1a" }}
+					>
 						{category.title}
 					</h1>
 
 					{/* Breadcrumb navigation */}
-					<nav className="mt-3 flex items-center gap-2 text-neutral-600 text-sm">
-						<Link href="/" className="transition-colors hover:text-neutral-900">
+					<nav
+						className="mb-4 flex items-center gap-2 text-sm"
+						style={{ color: "#999999" }}
+					>
+						<Link href="/" className="transition-opacity hover:opacity-70">
 							Inicio
 						</Link>
 						<span>/</span>
-						<span className="text-neutral-900">{category.title}</span>
+						<span style={{ color: "#1a1a1a" }}>{category.title}</span>
 					</nav>
 
 					{category.description && (
-						<p className="mt-4 text-neutral-600">{category.description}</p>
+						<p className="mb-2 text-sm" style={{ color: "#666666" }}>
+							{category.description}
+						</p>
 					)}
-					<p className="mt-2 text-neutral-500 text-sm">
+					<p className="text-sm" style={{ color: "#999999" }}>
 						{artworks.length} {artworks.length === 1 ? "obra" : "obras"}
 					</p>
 				</div>
-			</div>
 
-			{/* Artwork Grid */}
-			<div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
 				{artworks.length === 0 ? (
 					// Empty state
 					<div className="flex min-h-[40vh] flex-col items-center justify-center text-center">
-						<p className="text-neutral-600 text-xl">
+						<p className="text-xl" style={{ color: "#999999" }}>
 							No hay obras en esta categoría
 						</p>
 						<Link
 							href="/"
-							className="mt-4 text-neutral-900 text-sm hover:underline"
+							className="mt-4 text-sm transition-opacity hover:opacity-70"
+							style={{ color: "#1a1a1a" }}
 						>
 							← Volver a categorías
 						</Link>
 					</div>
 				) : (
-					// Responsive grid
-					<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+					// Responsive grid with generous spacing
+					<div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-12 lg:grid-cols-3 lg:gap-16 xl:grid-cols-4">
 						{artworks.map((artwork) => (
 							<ArtworkCard key={artwork._id} artwork={artwork} />
 						))}

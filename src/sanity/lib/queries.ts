@@ -1,4 +1,5 @@
 import { groq } from "next-sanity";
+import type { Image } from "sanity";
 import type {
 	Artwork,
 	ArtworkGridItem,
@@ -34,11 +35,14 @@ export async function getAllArtwork(): Promise<ArtworkGridItem[]> {
       autor,
       "category": category->{
         _id,
-        title
+        title,
+        slug
       },
       year,
       order
     }`,
+		{},
+		{ next: { revalidate: 60 } },
 	);
 }
 
@@ -77,7 +81,76 @@ export async function getArtworkBySlug(slug: string): Promise<Artwork | null> {
       order
     }`,
 		{ slug },
+		{ next: { revalidate: 60 } },
 	);
+}
+
+/**
+ * Get artwork with navigation info (prev/next artworks in same category)
+ * Returns current artwork plus all artworks in the category for navigation
+ */
+export async function getArtworkWithNavigation(slug: string): Promise<{
+	artwork: Artwork | null;
+	allArtworksInCategory: Array<{
+		_id: string;
+		slug: { current: string };
+		title: string;
+		image: Image & { alt: string };
+	}>;
+} | null> {
+	const result = await client.fetch<{
+		artwork: Artwork | null;
+		allArtworksInCategory: Array<{
+			_id: string;
+			slug: { current: string };
+			title: string;
+			image: Image & { alt: string };
+		}>;
+	} | null>(
+		groq`{
+      "artwork": *[_type == "artwork" && slug.current == $slug][0] {
+        _id,
+        _type,
+        _createdAt,
+        _updatedAt,
+        title,
+        slug,
+        image {
+          asset,
+          alt
+        },
+        description,
+        autor,
+        "category": category->{
+          _id,
+          _type,
+          _createdAt,
+          _updatedAt,
+          title,
+          slug,
+          description,
+          order
+        },
+        year,
+        dimensions,
+        medium,
+        order
+      },
+      "allArtworksInCategory": *[_type == "artwork" && category._ref == *[_type == "artwork" && slug.current == $slug][0].category._ref] | order(orderRank asc, _createdAt desc) {
+        _id,
+        slug,
+        title,
+        image {
+          asset,
+          alt
+        }
+      }
+    }`,
+		{ slug },
+		{ next: { revalidate: 60 } },
+	);
+
+	return result;
 }
 
 /**
@@ -136,6 +209,8 @@ export async function getAllCategoriesWithArtwork(): Promise<
       "artworkCount": count(*[_type == "artwork" && references(^._id)]),
       "sampleImage": *[_type == "artwork" && references(^._id)] | order(orderRank asc, _createdAt desc)[0].image
     }[artworkCount > 0] | order(orderRank asc, title asc)`,
+		{},
+		{ next: { revalidate: 60 } },
 	);
 }
 
@@ -166,6 +241,7 @@ export async function getArtworksByCategory(
       order
     }`,
 		{ categorySlug },
+		{ next: { revalidate: 60 } },
 	);
 }
 
@@ -188,5 +264,6 @@ export async function getCategoryBySlug(
       order
     }`,
 		{ slug },
+		{ next: { revalidate: 60 } },
 	);
 }

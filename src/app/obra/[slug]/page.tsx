@@ -3,26 +3,20 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArtworkImageViewer } from "~/components/ArtworkImageViewer";
+import { ArtworkNavigation } from "~/components/ArtworkNavigation";
+import { BackToCategoryLink } from "~/components/BackToCategoryLink";
 import { getBlurDataUrl, getDetailImageUrl } from "~/sanity/lib/image";
-import { getAllArtworkSlugs, getArtworkBySlug } from "~/sanity/lib/queries";
+import {
+	getArtworkBySlug,
+	getArtworkWithNavigation,
+} from "~/sanity/lib/queries";
 
 interface ArtworkPageProps {
 	params: Promise<{ slug: string }>;
 }
 
-// Force dynamic rendering to always fetch fresh data from Sanity
-export const dynamic = "force-dynamic";
-
-/**
- * generateStaticParams is disabled for dynamic rendering
- * All artwork pages are now rendered on-demand with fresh data
- */
-// export async function generateStaticParams() {
-// 	const slugs = await getAllArtworkSlugs();
-// 	return slugs.map((slug) => ({
-// 		slug,
-// 	}));
-// }
+// Enable ISR with 60 second revalidation
+export const revalidate = 60;
 
 /**
  * Generate metadata for SEO
@@ -42,7 +36,7 @@ export async function generateMetadata({
 	const imageUrl = getDetailImageUrl(artwork.image, 1600);
 
 	return {
-		title: `${artwork.title} | UNAY Artes Visuales`,
+		title: `${artwork.title} | Universidad de las Artes de Yucatán`,
 		description: artwork.description
 			? // Extract plain text from PortableText for meta description
 				artwork.description
@@ -75,58 +69,25 @@ export async function generateMetadata({
 
 /**
  * Artwork Detail Page
- * Shows full artwork image with complete metadata
+ * Shows full artwork image with complete metadata and navigation
  */
 export default async function ArtworkPage({ params }: ArtworkPageProps) {
 	const { slug } = await params;
-	const artwork = await getArtworkBySlug(slug);
+	const data = await getArtworkWithNavigation(slug);
 
-	if (!artwork) {
+	if (!data || !data.artwork) {
 		notFound();
 	}
 
+	const { artwork, allArtworksInCategory } = data;
 	const imageUrl = getDetailImageUrl(artwork.image, 1600);
 	const blurDataUrl = await getBlurDataUrl(artwork.image);
 
 	return (
 		<main className="min-h-screen bg-white">
-			{/* Artwork header */}
-			<div className="border-neutral-200 border-b bg-neutral-50">
-				<div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
-					<h1 className="font-bold text-3xl text-neutral-900 sm:text-4xl">
-						{artwork.title}
-					</h1>
-
-					{/* Breadcrumb navigation */}
-					<nav className="mt-3 flex items-center gap-2 text-neutral-600 text-sm">
-						<Link href="/" className="transition-colors hover:text-neutral-900">
-							Inicio
-						</Link>
-						<span>/</span>
-						{artwork.category && (
-							<>
-								<Link
-									href={`/categoria/${artwork.category.slug.current}`}
-									className="transition-colors hover:text-neutral-900"
-								>
-									{artwork.category.title}
-								</Link>
-								<span>/</span>
-							</>
-						)}
-						<span className="text-neutral-900">{artwork.title}</span>
-					</nav>
-
-					{/* Author */}
-					{artwork.autor && (
-						<p className="mt-4 text-neutral-700 text-xl">{artwork.autor}</p>
-					)}
-				</div>
-			</div>
-
 			{/* Artwork content */}
-			<div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
-				<div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
+			<div className="container mx-auto px-3 py-12 sm:px-6 sm:py-16 lg:px-12 lg:py-20">
+				<div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-3 lg:gap-16">
 					{/* Image with full-page view */}
 					<ArtworkImageViewer
 						imageUrl={imageUrl}
@@ -136,45 +97,118 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 
 					{/* Metadata */}
 					<div className="flex flex-col lg:col-span-1">
-						{/* Basic info */}
-						<div className="space-y-2">
-							{artwork.category && (
-								<p className="text-neutral-600">
-									<span className="font-medium">Categoría:</span>{" "}
-									{artwork.category.title}
+						{/* Title and Author */}
+						<div className="mb-8">
+							<h1
+								className="mb-2 text-2xl tracking-tight sm:text-3xl"
+								style={{ color: "#1a1a1a" }}
+							>
+								{artwork.title}
+							</h1>
+							{artwork.autor && (
+								<p className="text-base" style={{ color: "#666666" }}>
+									{artwork.autor}
 								</p>
 							)}
+						</div>
+
+						{/* Basic info */}
+						<div
+							className="space-y-3 border-t pt-6"
+							style={{ borderColor: "#e5e5e5" }}
+						>
 							{artwork.year && (
-								<p className="text-neutral-600">
-									<span className="font-medium">Año:</span> {artwork.year}
-								</p>
+								<div className="flex gap-4">
+									<span
+										className="w-24 flex-shrink-0 text-sm"
+										style={{ color: "#999999" }}
+									>
+										Año
+									</span>
+									<span className="text-sm" style={{ color: "#1a1a1a" }}>
+										{artwork.year}
+									</span>
+								</div>
 							)}
 							{artwork.dimensions && (
-								<p className="text-neutral-600">
-									<span className="font-medium">Dimensiones:</span>{" "}
-									{artwork.dimensions}
-								</p>
+								<div className="flex gap-4">
+									<span
+										className="w-24 flex-shrink-0 text-sm"
+										style={{ color: "#999999" }}
+									>
+										Dimensiones
+									</span>
+									<span className="text-sm" style={{ color: "#1a1a1a" }}>
+										{artwork.dimensions}
+									</span>
+								</div>
 							)}
 							{artwork.medium && (
-								<p className="text-neutral-600">
-									<span className="font-medium">Técnica:</span> {artwork.medium}
-								</p>
+								<div className="flex gap-4">
+									<span
+										className="w-24 flex-shrink-0 text-sm"
+										style={{ color: "#999999" }}
+									>
+										Técnica
+									</span>
+									<span className="text-sm" style={{ color: "#1a1a1a" }}>
+										{artwork.medium}
+									</span>
+								</div>
+							)}
+							{artwork.category && (
+								<div className="flex gap-4">
+									<span
+										className="w-24 flex-shrink-0 text-sm"
+										style={{ color: "#999999" }}
+									>
+										Categoría
+									</span>
+									<Link
+										href={`/categoria/${artwork.category.slug.current}`}
+										className="text-sm transition-opacity hover:opacity-70"
+										style={{ color: "#1a1a1a" }}
+									>
+										{artwork.category.title}
+									</Link>
+								</div>
 							)}
 						</div>
 
 						{/* Description / Artist statement */}
 						{artwork.description && artwork.description.length > 0 && (
-							<div className="mt-8">
-								<h2 className="mb-4 font-semibold text-neutral-900 text-xl">
-									Sobre la obra
-								</h2>
-								<div className="prose prose-neutral max-w-none">
+							<div
+								className="mt-8 border-t pt-6"
+								style={{ borderColor: "#e5e5e5" }}
+							>
+								<div className="text-sm" style={{ color: "#1a1a1a" }}>
 									<PortableText value={artwork.description} />
 								</div>
 							</div>
 						)}
+
+						{/* Back to category */}
+						<div
+							className="mt-8 border-t pt-6"
+							style={{ borderColor: "#e5e5e5" }}
+						>
+							<BackToCategoryLink defaultCategory={artwork.category} />
+						</div>
 					</div>
 				</div>
+
+				{/* Navigation Controls */}
+				{allArtworksInCategory.length > 1 && (
+					<div
+						className="mt-12 border-t pt-8"
+						style={{ borderColor: "#e5e5e5" }}
+					>
+						<ArtworkNavigation
+							currentSlug={slug}
+							allArtworks={allArtworksInCategory}
+						/>
+					</div>
+				)}
 			</div>
 		</main>
 	);

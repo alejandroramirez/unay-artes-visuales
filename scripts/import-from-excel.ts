@@ -153,7 +153,7 @@ async function getLastOrderRank(
 	type: "category" | "artwork",
 ): Promise<LexoRank> {
 	const query =
-		'*[_type == $type && defined(orderRank)] | order(orderRank desc) [0].orderRank';
+		"*[_type == $type && defined(orderRank)] | order(orderRank desc) [0].orderRank";
 	const lastRank = await client.fetch(query, { type });
 
 	if (lastRank) {

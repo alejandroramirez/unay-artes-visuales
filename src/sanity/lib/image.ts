@@ -72,7 +72,7 @@ export const getBlurDataUrl = async (source: Image): Promise<string> => {
 		const mimeType = response.headers.get("content-type") || "image/jpeg";
 
 		return `data:${mimeType};base64,${base64}`;
-	} catch (error) {
+	} catch (_error) {
 		// Fallback to a simple gray placeholder if fetch fails
 		// 1x1 pixel gray PNG
 		return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8+ehRPQAJBQNm4btqOAAAAABJRU5ErkJggg==";

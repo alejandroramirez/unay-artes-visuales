@@ -6,5 +6,5 @@ export const client = createClient({
 	projectId,
 	dataset,
 	apiVersion,
-	useCdn: false, // Disabled for dynamic rendering to ensure fresh data on every request
+	useCdn: true, // Enable CDN for faster reads with caching
 });

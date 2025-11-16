@@ -23,6 +23,22 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
 	const [isNavigating, setIsNavigating] = useState(false);
 
 	const handleClick = () => {
+		// Save current category and scroll position for return navigation
+		if (artwork.category) {
+			sessionStorage.setItem(
+				"artworkReturnCategory",
+				artwork.category.slug.current,
+			);
+			sessionStorage.setItem(
+				"artworkReturnCategoryTitle",
+				artwork.category.title,
+			);
+			sessionStorage.setItem(
+				"categoryScrollPosition",
+				window.scrollY.toString(),
+			);
+		}
+
 		setIsNavigating(true);
 		startTransition(() => {
 			router.push(`/obra/${artwork.slug.current}`);
@@ -34,7 +50,7 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
 	return (
 		<div
 			onClick={handleClick}
-			className={`group relative block cursor-pointer overflow-hidden rounded-lg bg-neutral-100 transition-all duration-300 hover:scale-[1.02] ${
+			className={`group relative block cursor-pointer transition-opacity duration-300 hover:opacity-90 ${
 				isLoading ? "pointer-events-none opacity-60" : ""
 			}`}
 		>
@@ -44,39 +60,32 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
 					src={imageUrl}
 					alt={artwork.image.alt}
 					fill
-					className="object-cover transition-transform duration-500 group-hover:scale-105"
+					className="object-cover"
 					sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
 					loading="lazy"
 				/>
 
-				{/* Overlay on hover */}
-				<div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/10" />
-
 				{/* Loading spinner */}
 				{isLoading && (
-					<div className="absolute inset-0 z-10 flex items-center justify-center bg-white/20 backdrop-blur-sm">
-						<div className="h-8 w-8 animate-spin rounded-full border-3 border-white/30 border-t-white" />
+					<div className="absolute inset-0 z-10 flex items-center justify-center bg-white/90">
+						<div
+							className="h-8 w-8 animate-spin rounded-full border-3 border-t-transparent"
+							style={{ borderColor: "#1a1a1a", borderTopColor: "transparent" }}
+						/>
 					</div>
 				)}
 			</div>
 
 			{/* Metadata */}
-			<div className="p-4">
-				<h3 className="line-clamp-1 font-medium text-neutral-900">
+			<div className="pt-3">
+				<h3 className="line-clamp-1 text-sm" style={{ color: "#1a1a1a" }}>
 					{artwork.title}
 				</h3>
 
 				{/* Author */}
 				{artwork.autor && (
-					<p className="mt-1 text-neutral-700 text-sm">{artwork.autor}</p>
-				)}
-
-				{/* Category and year */}
-				{(artwork.category || artwork.year) && (
-					<p className="mt-1 text-neutral-600 text-sm">
-						{[artwork.category?.title, artwork.year]
-							.filter(Boolean)
-							.join(" • ")}
+					<p className="mt-1 text-sm" style={{ color: "#999999" }}>
+						{artwork.autor}
 					</p>
 				)}
 			</div>

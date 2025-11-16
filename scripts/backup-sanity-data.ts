@@ -94,11 +94,8 @@ interface ImageAsset {
 function getTimestamp(): string {
 	const now = new Date();
 	return (
-		now
-			.toISOString()
-			.replace(/[:.]/g, "-")
-			.replace(/T/, "_")
-			.split("Z")[0] || ""
+		now.toISOString().replace(/[:.]/g, "-").replace(/T/, "_").split("Z")[0] ||
+		""
 	);
 }
 
