@@ -86,6 +86,27 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 		<main className="min-h-screen bg-white">
 			{/* Artwork content */}
 			<div className="container mx-auto px-3 py-12 sm:px-6 sm:py-16 lg:px-12 lg:py-20">
+				{/* Breadcrumb navigation */}
+				{artwork.category && (
+					<nav
+						className="mb-6 flex items-center gap-2 text-sm"
+						style={{ color: "#999999" }}
+					>
+						<Link href="/" className="transition-opacity hover:opacity-70">
+							Inicio
+						</Link>
+						<span>/</span>
+						<Link
+							href={`/categoria/${artwork.category.slug.current}`}
+							className="transition-opacity hover:opacity-70"
+						>
+							{artwork.category.title}
+						</Link>
+						<span>/</span>
+						<span style={{ color: "#1a1a1a" }}>{artwork.title}</span>
+					</nav>
+				)}
+
 				<div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-3 lg:gap-16">
 					{/* Image with full-page view */}
 					<ArtworkImageViewer
@@ -96,7 +117,7 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 
 					{/* Metadata */}
 					<div className="flex flex-col lg:col-span-1">
-						{/* Title and Breadcrumb */}
+						{/* Title and Author */}
 						<div className="mb-8">
 							<h1
 								className="mb-3 text-2xl tracking-tight sm:text-3xl"
@@ -104,27 +125,6 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 							>
 								{artwork.title}
 							</h1>
-
-							{/* Breadcrumb navigation */}
-							{artwork.category && (
-								<nav
-									className="mb-4 flex items-center gap-2 text-sm"
-									style={{ color: "#999999" }}
-								>
-									<Link href="/" className="transition-opacity hover:opacity-70">
-										Inicio
-									</Link>
-									<span>/</span>
-									<Link
-										href={`/categoria/${artwork.category.slug.current}`}
-										className="transition-opacity hover:opacity-70"
-									>
-										{artwork.category.title}
-									</Link>
-									<span>/</span>
-									<span style={{ color: "#1a1a1a" }}>{artwork.title}</span>
-								</nav>
-							)}
 
 							{artwork.autor && (
 								<p className="text-base" style={{ color: "#666666" }}>
