@@ -90,9 +90,12 @@
 		color-adjust: exact !important;
 	}
 
+	html,
 	body {
 		margin: 0;
 		padding: 0;
+		width: 100%;
+		height: 100%;
 	}
 
 	.no-print {
@@ -110,32 +113,68 @@
 
 	.print-container {
 		background: white;
+		width: 100%;
+		height: 100%;
 	}
 
+	/* Precise grid layout for A4 landscape
+	 * A4 landscape: 297mm x 210mm (29.7cm x 21cm)
+	 * With 1.5cm margins: 26.7cm x 18cm usable area
+	 * Gap between labels: 1cm
+	 * Each label: 12.85cm x 8.5cm
+	 */
 	.labels-grid {
+		display: grid;
+		grid-template-columns: 12.85cm 12.85cm;
+		grid-template-rows: 8.5cm 8.5cm;
 		gap: 1cm;
-		margin-bottom: 0;
+		width: 26.7cm;
+		height: 18cm;
+		margin: 0;
+		padding: 0;
 	}
 
 	.label {
-		border: 1px solid #ccc;
-		padding: 1.25rem;
+		border: 1px solid #999;
+		padding: 0.8cm;
 		border-radius: 0;
-		min-height: 11cm;
+		width: 12.85cm;
+		height: 8.5cm;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		gap: 0.4cm;
+		overflow: hidden;
 		break-inside: avoid;
 		page-break-inside: avoid;
 	}
 
 	.label-title {
-		font-size: 1.15rem;
+		font-size: 1.1rem;
+		font-weight: 600;
+		color: #000;
+		margin: 0;
+		line-height: 1.2;
+	}
+
+	.label-divider {
+		height: 1px;
+		background: #999;
+		margin: 0.2cm 0;
 	}
 
 	.label-field {
-		font-size: 0.9rem;
+		font-size: 0.85rem;
+		color: #000;
+		margin: 0;
+		line-height: 1.3;
 	}
 
 	.label-field-name {
-		min-width: 85px;
+		font-weight: 600;
+		color: #333;
+		display: inline-block;
+		min-width: 2.2cm;
 	}
 }
 
