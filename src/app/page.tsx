@@ -3,9 +3,14 @@ import { ThemeToggle } from "~/components/ThemeToggle";
 import { getAllCategoriesWithArtwork } from "~/sanity/lib/queries";
 
 /**
+ * ISR configuration - revalidate every 60 seconds
+ */
+export const revalidate = 60;
+
+/**
  * Homepage - Category Grid
  * Displays all categories with artworks in a responsive grid
- * Fully static page generated at build time for maximum performance
+ * Uses ISR (Incremental Static Regeneration) for performance with fresh data
  */
 export default async function HomePage() {
 	const categories = await getAllCategoriesWithArtwork();
