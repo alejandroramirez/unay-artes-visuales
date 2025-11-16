@@ -6,5 +6,7 @@ export const client = createClient({
 	projectId,
 	dataset,
 	apiVersion,
-	useCdn: true, // Enable CDN for faster reads with caching
+	// Disable CDN in production for fresher data with on-demand revalidation
+	// Keep CDN enabled in development for faster previews
+	useCdn: process.env.NODE_ENV !== "production",
 });
