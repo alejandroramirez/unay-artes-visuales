@@ -22,7 +22,7 @@ export default async function PrintLabelsPage() {
 			<div className="print-header no-print">
 				<div className="container mx-auto px-4">
 					<h1
-						className="mb-3 text-2xl font-semibold"
+						className="mb-3 font-semibold text-2xl"
 						style={{ color: "#1a1a1a" }}
 					>
 						Etiquetas para Exhibición

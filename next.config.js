@@ -16,6 +16,17 @@ const config = {
 			},
 		],
 	},
+	// Exclude server-only dependencies from client bundle
+	webpack: (config, { isServer }) => {
+		if (!isServer) {
+			config.resolve.alias = {
+				...config.resolve.alias,
+				puppeteer: false,
+				"@sparticuz/chromium": false,
+			};
+		}
+		return config;
+	},
 };
 
 export default config;
