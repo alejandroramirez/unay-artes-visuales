@@ -21,7 +21,7 @@ interface ArtworkNavigationProps {
 
 /**
  * ArtworkNavigation component for navigating between artworks in a category
- * Displays position indicator, prev/next arrows, and handles swipe gestures
+ * Displays side chevrons and position indicator, handles keyboard and swipe gestures
  * Prefetches adjacent routes for instant navigation
  */
 export function ArtworkNavigation({
@@ -100,122 +100,74 @@ export function ArtworkNavigation({
 	};
 
 	return (
-		<div
-			onTouchStart={onTouchStart}
-			onTouchMove={onTouchMove}
-			onTouchEnd={onTouchEnd}
-			className="w-full"
-		>
-			{/* Navigation Controls */}
-			<div className="flex items-center justify-between gap-4">
-				{/* Previous Button */}
-				{prevArtwork ? (
-					<Link
-						href={`/obra/${prevArtwork.slug.current}`}
-						className="flex items-center gap-2 text-sm transition-opacity hover:opacity-70"
-						style={{ color: "#1a1a1a" }}
-						aria-label="Obra anterior"
-						prefetch={true}
-					>
-						<svg
-							width="20"
-							height="20"
-							viewBox="0 0 20 20"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-							className="flex-shrink-0"
-						>
-							<path
-								d="M12.5 15L7.5 10L12.5 5"
-								stroke="currentColor"
-								strokeWidth="1.5"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							/>
-						</svg>
-						<span className="hidden sm:inline">Anterior</span>
-					</Link>
-				) : (
-					<div
-						className="flex items-center gap-2 text-sm opacity-30"
-						style={{ color: "#1a1a1a" }}
-					>
-						<svg
-							width="20"
-							height="20"
-							viewBox="0 0 20 20"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-							className="flex-shrink-0"
-						>
-							<path
-								d="M12.5 15L7.5 10L12.5 5"
-								stroke="currentColor"
-								strokeWidth="1.5"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							/>
-						</svg>
-						<span className="hidden sm:inline">Anterior</span>
-					</div>
-				)}
+		<>
+			{/* Touch area for swipe detection */}
+			<div
+				onTouchStart={onTouchStart}
+				onTouchMove={onTouchMove}
+				onTouchEnd={onTouchEnd}
+				className="fixed inset-0 pointer-events-none z-40"
+			/>
 
-				{/* Position Indicator */}
+			{/* Previous Button - Left Side */}
+			{prevArtwork && (
+				<Link
+					href={`/obra/${prevArtwork.slug.current}`}
+					className="fixed left-4 top-1/2 -translate-y-1/2 z-50 p-3 transition-opacity hover:opacity-70"
+					style={{ color: "#1a1a1a" }}
+					aria-label="Obra anterior"
+					prefetch={true}
+				>
+					<svg
+						width="32"
+						height="32"
+						viewBox="0 0 24 24"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M15 18L9 12L15 6"
+							stroke="currentColor"
+							strokeWidth="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						/>
+					</svg>
+				</Link>
+			)}
+
+			{/* Next Button - Right Side */}
+			{nextArtwork && (
+				<Link
+					href={`/obra/${nextArtwork.slug.current}`}
+					className="fixed right-4 top-1/2 -translate-y-1/2 z-50 p-3 transition-opacity hover:opacity-70"
+					style={{ color: "#1a1a1a" }}
+					aria-label="Siguiente obra"
+					prefetch={true}
+				>
+					<svg
+						width="32"
+						height="32"
+						viewBox="0 0 24 24"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M9 18L15 12L9 6"
+							stroke="currentColor"
+							strokeWidth="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						/>
+					</svg>
+				</Link>
+			)}
+
+			{/* Position Indicator - Bottom Center */}
+			<div className="flex justify-center">
 				<div className="text-sm" style={{ color: "#999999" }}>
 					{position} / {totalCount}
 				</div>
-
-				{/* Next Button */}
-				{nextArtwork ? (
-					<Link
-						href={`/obra/${nextArtwork.slug.current}`}
-						className="flex items-center gap-2 text-sm transition-opacity hover:opacity-70"
-						style={{ color: "#1a1a1a" }}
-						aria-label="Siguiente obra"
-						prefetch={true}
-					>
-						<span className="hidden sm:inline">Siguiente</span>
-						<svg
-							width="20"
-							height="20"
-							viewBox="0 0 20 20"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-							className="flex-shrink-0"
-						>
-							<path
-								d="M7.5 15L12.5 10L7.5 5"
-								stroke="currentColor"
-								strokeWidth="1.5"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							/>
-						</svg>
-					</Link>
-				) : (
-					<div
-						className="flex items-center gap-2 text-sm opacity-30"
-						style={{ color: "#1a1a1a" }}
-					>
-						<span className="hidden sm:inline">Siguiente</span>
-						<svg
-							width="20"
-							height="20"
-							viewBox="0 0 20 20"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-							className="flex-shrink-0"
-						>
-							<path
-								d="M7.5 15L12.5 10L7.5 5"
-								stroke="currentColor"
-								strokeWidth="1.5"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							/>
-						</svg>
-					</div>
-				)}
 			</div>
 
 			{/* Preload next and previous artwork images */}
@@ -241,6 +193,6 @@ export function ArtworkNavigation({
 					/>
 				</div>
 			)}
-		</div>
+		</>
 	);
 }

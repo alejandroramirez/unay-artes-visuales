@@ -196,20 +196,15 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 						</div>
 					</div>
 				</div>
-
-				{/* Navigation Controls */}
-				{allArtworksInCategory.length > 1 && (
-					<div
-						className="mt-12 border-t pt-8"
-						style={{ borderColor: "#e5e5e5" }}
-					>
-						<ArtworkNavigation
-							currentSlug={slug}
-							allArtworks={allArtworksInCategory}
-						/>
-					</div>
-				)}
 			</div>
+
+			{/* Navigation Controls - Fixed position side arrows */}
+			{allArtworksInCategory.length > 1 && (
+				<ArtworkNavigation
+					currentSlug={slug}
+					allArtworks={allArtworksInCategory}
+				/>
+			)}
 		</main>
 	);
 }
