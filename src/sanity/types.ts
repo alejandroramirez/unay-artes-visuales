@@ -16,6 +16,10 @@ export interface Category {
 		current: string;
 	};
 	description?: string;
+	thumbnailArtwork?: {
+		_ref: string;
+		_type: "reference";
+	};
 	order?: number;
 }
 

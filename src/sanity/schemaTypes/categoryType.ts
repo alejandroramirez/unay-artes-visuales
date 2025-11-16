@@ -33,6 +33,26 @@ export const categoryType = defineType({
 			rows: 3,
 		}),
 		defineField({
+			name: "thumbnailArtwork",
+			title: "Thumbnail Artwork",
+			type: "reference",
+			to: [{ type: "artwork" }],
+			description:
+				"Select an artwork to use as the category thumbnail. If not set, the first artwork will be used.",
+			options: {
+				filter: ({ document }) => {
+					// Only show artworks that belong to this category
+					if (!document._id) {
+						return { filter: '_type == "artwork"' };
+					}
+					return {
+						filter: '_type == "artwork" && references($categoryId)',
+						params: { categoryId: document._id },
+					};
+				},
+			},
+		}),
+		defineField({
 			name: "order",
 			title: "Order",
 			type: "number",
