@@ -35,7 +35,7 @@ export default async function HomePage() {
 					</div>
 				) : (
 					// Responsive grid with generous spacing
-					<div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-12 lg:grid-cols-3 lg:gap-16 xl:grid-cols-4">
+					<div className="grid grid-cols-2 gap-8 sm:gap-12 lg:grid-cols-3 lg:gap-16 xl:grid-cols-4">
 						{categories.map((category) => (
 							<CategoryCard key={category._id} category={category} />
 						))}
