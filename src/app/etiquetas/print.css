@@ -92,10 +92,11 @@
 
 	html,
 	body {
-		margin: 0;
-		padding: 0;
-		width: 100%;
-		height: 100%;
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 29.7cm;
+		height: 21cm;
+		overflow: hidden;
 	}
 
 	.no-print {
@@ -115,6 +116,14 @@
 		background: white;
 		width: 100%;
 		height: 100%;
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+
+	.container {
+		margin: 0 !important;
+		padding: 0 !important;
+		max-width: none !important;
 	}
 
 	/* Precise grid layout for A4 landscape
@@ -124,14 +133,14 @@
 	 * Each label: 12.85cm x 8.5cm
 	 */
 	.labels-grid {
-		display: grid;
-		grid-template-columns: 12.85cm 12.85cm;
-		grid-template-rows: 8.5cm 8.5cm;
-		gap: 1cm;
-		width: 26.7cm;
-		height: 18cm;
-		margin: 0;
-		padding: 0;
+		display: grid !important;
+		grid-template-columns: 12.85cm 12.85cm !important;
+		grid-template-rows: 8.5cm 8.5cm !important;
+		gap: 1cm !important;
+		width: 26.7cm !important;
+		height: 18cm !important;
+		margin: 0 auto !important;
+		padding: 0 !important;
 	}
 
 	.label {
