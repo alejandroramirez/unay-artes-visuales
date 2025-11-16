@@ -68,15 +68,13 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
 
 			{/* Metadata */}
 			<div className="pt-3">
-				<h3 className="line-clamp-1 text-sm" style={{ color: "#1a1a1a" }}>
+				<h3 className="line-clamp-1 text-foreground text-sm">
 					{artwork.title}
 				</h3>
 
 				{/* Author */}
 				{artwork.autor && (
-					<p className="mt-1 text-sm" style={{ color: "#999999" }}>
-						{artwork.autor}
-					</p>
+					<p className="mt-1 text-muted text-sm">{artwork.autor}</p>
 				)}
 			</div>
 		</Link>

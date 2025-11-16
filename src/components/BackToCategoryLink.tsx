@@ -79,15 +79,11 @@ export function BackToCategoryLink({
 			type="button"
 			onClick={handleClick}
 			disabled={isLoading}
-			className="inline-flex items-center gap-2 text-sm transition-opacity hover:opacity-70 disabled:opacity-50"
-			style={{ color: "#1a1a1a" }}
+			className="inline-flex items-center gap-2 text-foreground text-sm transition-opacity hover:opacity-70 disabled:opacity-50"
 		>
 			{isLoading ? (
 				<>
-					<div
-						className="h-4 w-4 animate-spin rounded-full border-2 border-t-transparent"
-						style={{ borderColor: "#1a1a1a", borderTopColor: "transparent" }}
-					/>
+					<div className="h-4 w-4 animate-spin rounded-full border-2 border-foreground border-t-transparent" />
 					<span>Cargando...</span>
 				</>
 			) : (

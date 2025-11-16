@@ -106,15 +106,14 @@ export function ArtworkNavigation({
 				onTouchStart={onTouchStart}
 				onTouchMove={onTouchMove}
 				onTouchEnd={onTouchEnd}
-				className="fixed inset-0 pointer-events-none z-40"
+				className="pointer-events-none fixed inset-0 z-40"
 			/>
 
 			{/* Previous Button - Left Side */}
 			{prevArtwork && (
 				<Link
 					href={`/obra/${prevArtwork.slug.current}`}
-					className="fixed left-4 top-1/2 -translate-y-1/2 z-50 p-3 transition-opacity hover:opacity-70"
-					style={{ color: "#1a1a1a" }}
+					className="-translate-y-1/2 fixed top-1/2 left-4 z-50 p-3 text-foreground transition-opacity hover:opacity-70"
 					aria-label="Obra anterior"
 					prefetch={true}
 				>
@@ -140,8 +139,7 @@ export function ArtworkNavigation({
 			{nextArtwork && (
 				<Link
 					href={`/obra/${nextArtwork.slug.current}`}
-					className="fixed right-4 top-1/2 -translate-y-1/2 z-50 p-3 transition-opacity hover:opacity-70"
-					style={{ color: "#1a1a1a" }}
+					className="-translate-y-1/2 fixed top-1/2 right-4 z-50 p-3 text-foreground transition-opacity hover:opacity-70"
 					aria-label="Siguiente obra"
 					prefetch={true}
 				>
@@ -165,7 +163,7 @@ export function ArtworkNavigation({
 
 			{/* Position Indicator - Bottom Center */}
 			<div className="flex justify-center">
-				<div className="text-sm" style={{ color: "#999999" }}>
+				<div className="text-muted text-sm">
 					{position} / {totalCount}
 				</div>
 			</div>
