@@ -12,6 +12,7 @@ interface ArtworkImageViewerProps {
 /**
  * ArtworkImageViewer component
  * Displays artwork image with loading indicator
+ * Adapts to natural image aspect ratio (portrait or landscape)
  */
 export function ArtworkImageViewer({
 	imageUrl,
@@ -21,7 +22,7 @@ export function ArtworkImageViewer({
 	const [isLoading, setIsLoading] = useState(true);
 
 	return (
-		<div className="relative aspect-square w-full overflow-hidden lg:col-span-2">
+		<div className="relative w-full lg:col-span-2">
 			{/* Loading spinner */}
 			{isLoading && (
 				<div className="absolute inset-0 z-10 flex items-center justify-center">
@@ -32,8 +33,9 @@ export function ArtworkImageViewer({
 			<Image
 				src={imageUrl}
 				alt={alt}
-				fill
-				className="object-contain object-top"
+				width={1600}
+				height={1600}
+				className="h-auto w-full"
 				sizes="(max-width: 1024px) 100vw, 66vw"
 				priority
 				placeholder={blurDataUrl ? "blur" : "empty"}
