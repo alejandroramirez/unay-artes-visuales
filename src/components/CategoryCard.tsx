@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 import { getGridImageUrl } from "~/sanity/lib/image";
 import type { CategoryWithArtwork } from "~/sanity/types";
 
@@ -12,18 +14,31 @@ interface CategoryCardProps {
 /**
  * CategoryCard component for category grid on homepage
  * Displays category with sample image and text below
- * Uses Link for instant navigation with prefetching
+ * Uses Link with useTransition for smooth, instant navigation
  */
 export function CategoryCard({ category }: CategoryCardProps) {
+	const router = useRouter();
+	const [isPending, startTransition] = useTransition();
+
 	// Get image URL if sample image exists
 	const imageUrl = category.sampleImage
 		? getGridImageUrl(category.sampleImage, 800)
 		: null;
 
+	const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+		e.preventDefault();
+		startTransition(() => {
+			router.push(`/categoria/${category.slug.current}`);
+		});
+	};
+
 	return (
 		<Link
 			href={`/categoria/${category.slug.current}`}
-			className="group relative block transition-opacity duration-300 hover:opacity-90"
+			onClick={handleClick}
+			className={`group relative block transition-opacity duration-200 hover:opacity-90 ${
+				isPending ? "opacity-70" : ""
+			}`}
 			prefetch={true}
 		>
 			{/* Image container with aspect ratio */}

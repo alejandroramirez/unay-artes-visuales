@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 import { getGridImageUrl } from "~/sanity/lib/image";
 import type { ArtworkGridItem } from "~/sanity/types";
 
@@ -13,12 +15,14 @@ interface ArtworkCardProps {
  * ArtworkCard component for gallery grid
  * Displays artwork thumbnail with title and metadata
  * Optimized for performance with Next.js Image and lazy loading
- * Uses Link for instant navigation with prefetching
+ * Uses Link with useTransition for smooth, instant navigation
  */
 export function ArtworkCard({ artwork }: ArtworkCardProps) {
+	const router = useRouter();
+	const [isPending, startTransition] = useTransition();
 	const imageUrl = getGridImageUrl(artwork.image, 800);
 
-	const handleClick = () => {
+	const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
 		// Save current category and scroll position for return navigation
 		if (artwork.category) {
 			sessionStorage.setItem(
@@ -34,13 +38,20 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
 				window.scrollY.toString(),
 			);
 		}
+
+		e.preventDefault();
+		startTransition(() => {
+			router.push(`/obra/${artwork.slug.current}`);
+		});
 	};
 
 	return (
 		<Link
 			href={`/obra/${artwork.slug.current}`}
 			onClick={handleClick}
-			className="group relative block transition-opacity duration-300 hover:opacity-90"
+			className={`group relative block transition-opacity duration-200 hover:opacity-90 ${
+				isPending ? "opacity-70" : ""
+			}`}
 			prefetch={true}
 		>
 			{/* Image container with aspect ratio */}
