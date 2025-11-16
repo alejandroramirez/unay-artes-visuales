@@ -5,44 +5,40 @@
 		var(--font-inter), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
 		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
-	/* Light mode colors */
+	/* Define theme colors - Tailwind v4 syntax */
 	--color-background: #ffffff;
 	--color-foreground: #1a1a1a;
 	--color-muted: #999999;
 	--color-muted-dark: #666666;
 	--color-border: #e5e5e5;
-	--color-skeleton-base: #f0f0f0;
-	--color-skeleton-shine: #f8f8f8;
 }
 
-/* Dark mode color overrides */
-@media (prefers-color-scheme: dark) {
-	@theme {
-		--color-background: #0a0a0a;
-		--color-foreground: #ededed;
-		--color-muted: #a1a1a1;
-		--color-muted-dark: #d4d4d4;
-		--color-border: #262626;
-		--color-skeleton-base: #1a1a1a;
-		--color-skeleton-shine: #262626;
-	}
+/* Root-level CSS variables for dynamic theming */
+:root {
+	--bg-color: #ffffff;
+	--fg-color: #1a1a1a;
+	--muted-color: #999999;
+	--muted-dark-color: #666666;
+	--border-color: #e5e5e5;
+	--skeleton-base: #f0f0f0;
+	--skeleton-shine: #f8f8f8;
 }
 
-/* Class-based dark mode (for next-themes) */
+/* Dark mode overrides when .dark class is applied */
 .dark {
-	--color-background: #0a0a0a;
-	--color-foreground: #ededed;
-	--color-muted: #a1a1a1;
-	--color-muted-dark: #d4d4d4;
-	--color-border: #262626;
-	--color-skeleton-base: #1a1a1a;
-	--color-skeleton-shine: #262626;
+	--bg-color: #0a0a0a;
+	--fg-color: #ededed;
+	--muted-color: #a1a1a1;
+	--muted-dark-color: #d4d4d4;
+	--border-color: #262626;
+	--skeleton-base: #1a1a1a;
+	--skeleton-shine: #262626;
 }
 
 /* Base styles */
 body {
-	background-color: var(--color-background);
-	color: var(--color-foreground);
+	background-color: var(--bg-color);
+	color: var(--fg-color);
 	transition:
 		background-color 0.2s ease,
 		color 0.2s ease;
@@ -62,10 +58,31 @@ body {
 	animation: shimmer 2s infinite linear;
 	background: linear-gradient(
 		90deg,
-		var(--color-skeleton-base) 0%,
-		var(--color-skeleton-shine) 20%,
-		var(--color-skeleton-base) 40%,
-		var(--color-skeleton-base) 100%
+		var(--skeleton-base) 0%,
+		var(--skeleton-shine) 20%,
+		var(--skeleton-base) 40%,
+		var(--skeleton-base) 100%
 	);
 	background-size: 1000px 100%;
+}
+
+/* Utility classes for theme colors */
+.bg-background {
+	background-color: var(--bg-color);
+}
+
+.text-foreground {
+	color: var(--fg-color);
+}
+
+.text-muted {
+	color: var(--muted-color);
+}
+
+.text-muted-dark {
+	color: var(--muted-dark-color);
+}
+
+.border-border {
+	border-color: var(--border-color);
 }
