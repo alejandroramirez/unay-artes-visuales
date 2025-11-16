@@ -1,13 +1,10 @@
 import { CategoryCard } from "~/components/CategoryCard";
 import { getAllCategoriesWithArtwork } from "~/sanity/lib/queries";
 
-// Enable ISR with 60 second revalidation
-export const revalidate = 60;
-
 /**
  * Homepage - Category Grid
  * Displays all categories with artworks in a responsive grid
- * Uses ISR to cache data and revalidate every 60 seconds
+ * Fully static page generated at build time for maximum performance
  */
 export default async function HomePage() {
 	const categories = await getAllCategoriesWithArtwork();

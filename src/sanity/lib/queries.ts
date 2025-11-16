@@ -210,7 +210,7 @@ export async function getAllCategoriesWithArtwork(): Promise<
       "sampleImage": *[_type == "artwork" && references(^._id)] | order(orderRank asc, _createdAt desc)[0].image
     }[artworkCount > 0] | order(orderRank asc, title asc)`,
 		{},
-		{ next: { revalidate: 60 } },
+		{ cache: "force-cache" },
 	);
 }
 
