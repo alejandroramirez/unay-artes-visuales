@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import type { Image as SanityImage } from "sanity";
 import { getGridImageUrl } from "~/sanity/lib/image";
 
@@ -21,15 +22,13 @@ interface ArtworkNavigationProps {
 /**
  * ArtworkNavigation component for navigating between artworks in a category
  * Displays position indicator, prev/next arrows, and handles swipe gestures
- * Preloads adjacent images for smooth UX
+ * Prefetches adjacent routes for instant navigation
  */
 export function ArtworkNavigation({
 	currentSlug,
 	allArtworks,
 }: ArtworkNavigationProps) {
 	const router = useRouter();
-	const [isPending, startTransition] = useTransition();
-	const [isNavigating, setIsNavigating] = useState(false);
 	const [touchStart, setTouchStart] = useState(0);
 	const [touchEnd, setTouchEnd] = useState(0);
 
@@ -46,36 +45,31 @@ export function ArtworkNavigation({
 	const totalCount = allArtworks.length;
 	const position = currentIndex + 1;
 
-	const isLoading = isPending || isNavigating;
-
-	// Navigate to artwork
-	const navigateToArtwork = useCallback(
-		(slug: string) => {
-			setIsNavigating(true);
-			startTransition(() => {
-				router.push(`/obra/${slug}`);
-			});
-		},
-		[router],
-	);
+	// Prefetch adjacent routes for instant navigation
+	useEffect(() => {
+		if (prevArtwork) {
+			router.prefetch(`/obra/${prevArtwork.slug.current}`);
+		}
+		if (nextArtwork) {
+			router.prefetch(`/obra/${nextArtwork.slug.current}`);
+		}
+	}, [prevArtwork, nextArtwork, router]);
 
 	// Keyboard navigation
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
-			if (isLoading) return;
-
 			if (e.key === "ArrowLeft" && prevArtwork) {
 				e.preventDefault();
-				navigateToArtwork(prevArtwork.slug.current);
+				router.push(`/obra/${prevArtwork.slug.current}`);
 			} else if (e.key === "ArrowRight" && nextArtwork) {
 				e.preventDefault();
-				navigateToArtwork(nextArtwork.slug.current);
+				router.push(`/obra/${nextArtwork.slug.current}`);
 			}
 		};
 
 		window.addEventListener("keydown", handleKeyDown);
 		return () => window.removeEventListener("keydown", handleKeyDown);
-	}, [prevArtwork, nextArtwork, isLoading, navigateToArtwork]);
+	}, [prevArtwork, nextArtwork, router]);
 
 	// Swipe detection
 	const minSwipeDistance = 50;
@@ -96,12 +90,12 @@ export function ArtworkNavigation({
 		const isLeftSwipe = distance > minSwipeDistance;
 		const isRightSwipe = distance < -minSwipeDistance;
 
-		if (isLeftSwipe && nextArtwork && !isLoading) {
-			navigateToArtwork(nextArtwork.slug.current);
+		if (isLeftSwipe && nextArtwork) {
+			router.push(`/obra/${nextArtwork.slug.current}`);
 		}
 
-		if (isRightSwipe && prevArtwork && !isLoading) {
-			navigateToArtwork(prevArtwork.slug.current);
+		if (isRightSwipe && prevArtwork) {
+			router.push(`/obra/${prevArtwork.slug.current}`);
 		}
 	};
 
@@ -115,34 +109,56 @@ export function ArtworkNavigation({
 			{/* Navigation Controls */}
 			<div className="flex items-center justify-between gap-4">
 				{/* Previous Button */}
-				<button
-					type="button"
-					onClick={() =>
-						prevArtwork && navigateToArtwork(prevArtwork.slug.current)
-					}
-					disabled={!prevArtwork || isLoading}
-					className="flex items-center gap-2 text-sm transition-opacity hover:opacity-70 disabled:cursor-not-allowed disabled:opacity-30"
-					style={{ color: "#1a1a1a" }}
-					aria-label="Obra anterior"
-				>
-					<svg
-						width="20"
-						height="20"
-						viewBox="0 0 20 20"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-						className="flex-shrink-0"
+				{prevArtwork ? (
+					<Link
+						href={`/obra/${prevArtwork.slug.current}`}
+						className="flex items-center gap-2 text-sm transition-opacity hover:opacity-70"
+						style={{ color: "#1a1a1a" }}
+						aria-label="Obra anterior"
+						prefetch={true}
 					>
-						<path
-							d="M12.5 15L7.5 10L12.5 5"
-							stroke="currentColor"
-							strokeWidth="1.5"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-						/>
-					</svg>
-					<span className="hidden sm:inline">Anterior</span>
-				</button>
+						<svg
+							width="20"
+							height="20"
+							viewBox="0 0 20 20"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+							className="flex-shrink-0"
+						>
+							<path
+								d="M12.5 15L7.5 10L12.5 5"
+								stroke="currentColor"
+								strokeWidth="1.5"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+							/>
+						</svg>
+						<span className="hidden sm:inline">Anterior</span>
+					</Link>
+				) : (
+					<div
+						className="flex items-center gap-2 text-sm opacity-30"
+						style={{ color: "#1a1a1a" }}
+					>
+						<svg
+							width="20"
+							height="20"
+							viewBox="0 0 20 20"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+							className="flex-shrink-0"
+						>
+							<path
+								d="M12.5 15L7.5 10L12.5 5"
+								stroke="currentColor"
+								strokeWidth="1.5"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+							/>
+						</svg>
+						<span className="hidden sm:inline">Anterior</span>
+					</div>
+				)}
 
 				{/* Position Indicator */}
 				<div className="text-sm" style={{ color: "#999999" }}>
@@ -150,37 +166,59 @@ export function ArtworkNavigation({
 				</div>
 
 				{/* Next Button */}
-				<button
-					type="button"
-					onClick={() =>
-						nextArtwork && navigateToArtwork(nextArtwork.slug.current)
-					}
-					disabled={!nextArtwork || isLoading}
-					className="flex items-center gap-2 text-sm transition-opacity hover:opacity-70 disabled:cursor-not-allowed disabled:opacity-30"
-					style={{ color: "#1a1a1a" }}
-					aria-label="Siguiente obra"
-				>
-					<span className="hidden sm:inline">Siguiente</span>
-					<svg
-						width="20"
-						height="20"
-						viewBox="0 0 20 20"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-						className="flex-shrink-0"
+				{nextArtwork ? (
+					<Link
+						href={`/obra/${nextArtwork.slug.current}`}
+						className="flex items-center gap-2 text-sm transition-opacity hover:opacity-70"
+						style={{ color: "#1a1a1a" }}
+						aria-label="Siguiente obra"
+						prefetch={true}
 					>
-						<path
-							d="M7.5 15L12.5 10L7.5 5"
-							stroke="currentColor"
-							strokeWidth="1.5"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-						/>
-					</svg>
-				</button>
+						<span className="hidden sm:inline">Siguiente</span>
+						<svg
+							width="20"
+							height="20"
+							viewBox="0 0 20 20"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+							className="flex-shrink-0"
+						>
+							<path
+								d="M7.5 15L12.5 10L7.5 5"
+								stroke="currentColor"
+								strokeWidth="1.5"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+							/>
+						</svg>
+					</Link>
+				) : (
+					<div
+						className="flex items-center gap-2 text-sm opacity-30"
+						style={{ color: "#1a1a1a" }}
+					>
+						<span className="hidden sm:inline">Siguiente</span>
+						<svg
+							width="20"
+							height="20"
+							viewBox="0 0 20 20"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+							className="flex-shrink-0"
+						>
+							<path
+								d="M7.5 15L12.5 10L7.5 5"
+								stroke="currentColor"
+								strokeWidth="1.5"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+							/>
+						</svg>
+					</div>
+				)}
 			</div>
 
-			{/* Preload next artwork image */}
+			{/* Preload next and previous artwork images */}
 			{nextArtwork && (
 				<div className="hidden">
 					<Image
@@ -192,13 +230,14 @@ export function ArtworkNavigation({
 					/>
 				</div>
 			)}
-
-			{/* Loading indicator */}
-			{isLoading && (
-				<div className="mt-4 flex items-center justify-center">
-					<div
-						className="h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"
-						style={{ borderColor: "#1a1a1a", borderTopColor: "transparent" }}
+			{prevArtwork && (
+				<div className="hidden">
+					<Image
+						src={getGridImageUrl(prevArtwork.image, 1600)}
+						alt={prevArtwork.image.alt}
+						width={1600}
+						height={1600}
+						priority
 					/>
 				</div>
 			)}

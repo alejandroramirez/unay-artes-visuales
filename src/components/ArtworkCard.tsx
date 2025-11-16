@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import Link from "next/link";
 import { getGridImageUrl } from "~/sanity/lib/image";
 import type { ArtworkGridItem } from "~/sanity/types";
 
@@ -14,13 +13,10 @@ interface ArtworkCardProps {
  * ArtworkCard component for gallery grid
  * Displays artwork thumbnail with title and metadata
  * Optimized for performance with Next.js Image and lazy loading
- * Shows loading feedback during navigation
+ * Uses Link for instant navigation with prefetching
  */
 export function ArtworkCard({ artwork }: ArtworkCardProps) {
 	const imageUrl = getGridImageUrl(artwork.image, 800);
-	const router = useRouter();
-	const [isPending, startTransition] = useTransition();
-	const [isNavigating, setIsNavigating] = useState(false);
 
 	const handleClick = () => {
 		// Save current category and scroll position for return navigation
@@ -38,21 +34,14 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
 				window.scrollY.toString(),
 			);
 		}
-
-		setIsNavigating(true);
-		startTransition(() => {
-			router.push(`/obra/${artwork.slug.current}`);
-		});
 	};
 
-	const isLoading = isPending || isNavigating;
-
 	return (
-		<div
+		<Link
+			href={`/obra/${artwork.slug.current}`}
 			onClick={handleClick}
-			className={`group relative block cursor-pointer transition-opacity duration-300 hover:opacity-90 ${
-				isLoading ? "pointer-events-none opacity-60" : ""
-			}`}
+			className="group relative block transition-opacity duration-300 hover:opacity-90"
+			prefetch={true}
 		>
 			{/* Image container with aspect ratio */}
 			<div className="relative aspect-square w-full overflow-hidden">
@@ -64,16 +53,6 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
 					sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
 					loading="lazy"
 				/>
-
-				{/* Loading spinner */}
-				{isLoading && (
-					<div className="absolute inset-0 z-10 flex items-center justify-center bg-white/90">
-						<div
-							className="h-8 w-8 animate-spin rounded-full border-3 border-t-transparent"
-							style={{ borderColor: "#1a1a1a", borderTopColor: "transparent" }}
-						/>
-					</div>
-				)}
 			</div>
 
 			{/* Metadata */}
@@ -89,6 +68,6 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
 					</p>
 				)}
 			</div>
-		</div>
+		</Link>
 	);
 }
