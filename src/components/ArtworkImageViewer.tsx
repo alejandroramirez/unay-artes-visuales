@@ -26,7 +26,7 @@ export function ArtworkImageViewer({
 			{/* Loading spinner */}
 			{isLoading && (
 				<div className="absolute inset-0 z-10 flex items-center justify-center">
-					<div className="h-12 w-12 animate-spin rounded-full border-4 border-neutral-300 border-t-neutral-600" />
+					<div className="h-12 w-12 animate-spin rounded-full border-4 border-neutral-300 border-t-neutral-600 dark:border-neutral-700 dark:border-t-neutral-400" />
 				</div>
 			)}
 

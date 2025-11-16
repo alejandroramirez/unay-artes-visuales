@@ -53,18 +53,18 @@ export function CategoryCard({ category }: CategoryCardProps) {
 						loading="lazy"
 					/>
 				) : (
-					<div className="absolute inset-0 bg-neutral-100" />
+					<div className="absolute inset-0 bg-neutral-100 dark:bg-neutral-800" />
 				)}
 			</div>
 
 			{/* Metadata */}
 			<div className="pt-3">
-				<h3 className="line-clamp-1 text-sm" style={{ color: "#1a1a1a" }}>
+				<h3 className="line-clamp-1 text-foreground text-sm">
 					{category.title}
 				</h3>
 
 				{/* Artwork count */}
-				<p className="mt-1 text-sm" style={{ color: "#999999" }}>
+				<p className="mt-1 text-muted text-sm">
 					{category.artworkCount}{" "}
 					{category.artworkCount === 1 ? "obra" : "obras"}
 				</p>

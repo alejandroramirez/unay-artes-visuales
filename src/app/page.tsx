@@ -1,4 +1,5 @@
 import { CategoryCard } from "~/components/CategoryCard";
+import { ThemeToggle } from "~/components/ThemeToggle";
 import { getAllCategoriesWithArtwork } from "~/sanity/lib/queries";
 
 /**
@@ -10,26 +11,24 @@ export default async function HomePage() {
 	const categories = await getAllCategoriesWithArtwork();
 
 	return (
-		<main className="min-h-screen bg-white">
+		<main className="min-h-screen bg-background">
 			{/* Category Grid */}
 			<div className="container mx-auto px-3 py-12 sm:px-6 sm:py-16 lg:px-12 lg:py-20">
 				{/* Header */}
-				<div className="mb-12">
-					<h1
-						className="mb-2 text-2xl tracking-tight sm:text-3xl"
-						style={{ color: "#1a1a1a" }}
-					>
-						Universidad de las Artes de Yucatán
-					</h1>
-					<p className="text-sm" style={{ color: "#999999" }}>
-						Grupo Primero A
-					</p>
+				<div className="mb-12 flex items-start justify-between">
+					<div>
+						<h1 className="mb-2 text-2xl text-foreground tracking-tight sm:text-3xl">
+							Universidad de las Artes de Yucatán
+						</h1>
+						<p className="text-muted text-sm">Grupo Primero A</p>
+					</div>
+					<ThemeToggle />
 				</div>
 
 				{categories.length === 0 ? (
 					// Empty state
 					<div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
-						<p className="text-xl" style={{ color: "#999999" }}>
+						<p className="text-muted text-xl">
 							Aún no hay categorías con obras
 						</p>
 					</div>

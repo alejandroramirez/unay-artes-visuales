@@ -59,7 +59,9 @@ export async function POST(req: NextRequest) {
 			// Revalidate specific category page if slug provided
 			if (body.slug?.current) {
 				revalidatePath(`/categoria/${body.slug.current}`);
-				console.log(`Revalidated category page: /categoria/${body.slug.current}`);
+				console.log(
+					`Revalidated category page: /categoria/${body.slug.current}`,
+				);
 			}
 
 			console.log(`Category updated: ${body.slug?.current || "unknown"}`);

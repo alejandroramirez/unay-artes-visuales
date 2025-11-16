@@ -27,7 +27,10 @@ export default function ArtworkTemplate({
 									<div className="skeleton h-6 w-1/2 rounded" />
 								</div>
 
-								<div className="space-y-3 border-t pt-6" style={{ borderColor: "#e5e5e5" }}>
+								<div
+									className="space-y-3 border-t pt-6"
+									style={{ borderColor: "#e5e5e5" }}
+								>
 									<div className="flex gap-4">
 										<div className="skeleton h-4 w-24 rounded" />
 										<div className="skeleton h-4 w-32 rounded" />
@@ -46,7 +49,10 @@ export default function ArtworkTemplate({
 									</div>
 								</div>
 
-								<div className="mt-8 border-t pt-6" style={{ borderColor: "#e5e5e5" }}>
+								<div
+									className="mt-8 border-t pt-6"
+									style={{ borderColor: "#e5e5e5" }}
+								>
 									<div className="space-y-2">
 										<div className="skeleton h-4 w-full rounded" />
 										<div className="skeleton h-4 w-full rounded" />
@@ -54,7 +60,10 @@ export default function ArtworkTemplate({
 									</div>
 								</div>
 
-								<div className="mt-8 border-t pt-6" style={{ borderColor: "#e5e5e5" }}>
+								<div
+									className="mt-8 border-t pt-6"
+									style={{ borderColor: "#e5e5e5" }}
+								>
 									<div className="skeleton h-4 w-48 rounded" />
 								</div>
 							</div>

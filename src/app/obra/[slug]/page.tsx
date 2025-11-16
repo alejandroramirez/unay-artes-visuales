@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArtworkImageViewer } from "~/components/ArtworkImageViewer";
 import { ArtworkNavigation } from "~/components/ArtworkNavigation";
+import { ThemeToggle } from "~/components/ThemeToggle";
 import { getBlurDataUrl, getDetailImageUrl } from "~/sanity/lib/image";
 import {
 	getArtworkBySlug,
@@ -83,29 +84,30 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 	const blurDataUrl = await getBlurDataUrl(artwork.image);
 
 	return (
-		<main className="min-h-screen bg-white">
+		<main className="min-h-screen bg-background">
 			{/* Artwork content */}
 			<div className="container mx-auto px-3 py-12 sm:px-6 sm:py-16 lg:px-12 lg:py-20">
-				{/* Breadcrumb navigation */}
-				{artwork.category && (
-					<nav
-						className="mb-6 flex items-center gap-2 text-sm"
-						style={{ color: "#999999" }}
-					>
-						<Link href="/" className="transition-opacity hover:opacity-70">
-							Inicio
-						</Link>
-						<span>/</span>
-						<Link
-							href={`/categoria/${artwork.category.slug.current}`}
-							className="transition-opacity hover:opacity-70"
-						>
-							{artwork.category.title}
-						</Link>
-						<span>/</span>
-						<span style={{ color: "#1a1a1a" }}>{artwork.title}</span>
-					</nav>
-				)}
+				{/* Header with breadcrumb and theme toggle */}
+				<div className="mb-6 flex items-start justify-between">
+					{/* Breadcrumb navigation */}
+					{artwork.category && (
+						<nav className="flex items-center gap-2 text-muted text-sm">
+							<Link href="/" className="transition-opacity hover:opacity-70">
+								Inicio
+							</Link>
+							<span>/</span>
+							<Link
+								href={`/categoria/${artwork.category.slug.current}`}
+								className="transition-opacity hover:opacity-70"
+							>
+								{artwork.category.title}
+							</Link>
+							<span>/</span>
+							<span className="text-foreground">{artwork.title}</span>
+						</nav>
+					)}
+					<ThemeToggle />
+				</div>
 
 				<div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-3 lg:gap-16">
 					{/* Image with full-page view */}
@@ -119,76 +121,55 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 					<div className="flex flex-col lg:col-span-1">
 						{/* Title and Author */}
 						<div className="mb-8">
-							<h1
-								className="mb-3 text-2xl tracking-tight sm:text-3xl"
-								style={{ color: "#1a1a1a" }}
-							>
+							<h1 className="mb-3 text-2xl text-foreground tracking-tight sm:text-3xl">
 								{artwork.title}
 							</h1>
 
 							{artwork.autor && (
-								<p className="text-base" style={{ color: "#666666" }}>
-									{artwork.autor}
-								</p>
+								<p className="text-base text-muted-dark">{artwork.autor}</p>
 							)}
 						</div>
 
 						{/* Basic info */}
-						<div
-							className="space-y-3 border-t pt-6"
-							style={{ borderColor: "#e5e5e5" }}
-						>
+						<div className="space-y-3 border-border border-t pt-6">
 							{artwork.year && (
 								<div className="flex gap-4">
-									<span
-										className="w-24 flex-shrink-0 text-sm"
-										style={{ color: "#999999" }}
-									>
+									<span className="w-24 flex-shrink-0 text-muted text-sm">
 										Año
 									</span>
-									<span className="text-sm" style={{ color: "#1a1a1a" }}>
+									<span className="text-foreground text-sm">
 										{artwork.year}
 									</span>
 								</div>
 							)}
 							{artwork.dimensions && (
 								<div className="flex gap-4">
-									<span
-										className="w-24 flex-shrink-0 text-sm"
-										style={{ color: "#999999" }}
-									>
+									<span className="w-24 flex-shrink-0 text-muted text-sm">
 										Dimensiones
 									</span>
-									<span className="text-sm" style={{ color: "#1a1a1a" }}>
+									<span className="text-foreground text-sm">
 										{artwork.dimensions}
 									</span>
 								</div>
 							)}
 							{artwork.medium && (
 								<div className="flex gap-4">
-									<span
-										className="w-24 flex-shrink-0 text-sm"
-										style={{ color: "#999999" }}
-									>
+									<span className="w-24 flex-shrink-0 text-muted text-sm">
 										Técnica
 									</span>
-									<span className="text-sm" style={{ color: "#1a1a1a" }}>
+									<span className="text-foreground text-sm">
 										{artwork.medium}
 									</span>
 								</div>
 							)}
 							{artwork.category && (
 								<div className="flex gap-4">
-									<span
-										className="w-24 flex-shrink-0 text-sm"
-										style={{ color: "#999999" }}
-									>
+									<span className="w-24 flex-shrink-0 text-muted text-sm">
 										Categoría
 									</span>
 									<Link
 										href={`/categoria/${artwork.category.slug.current}`}
-										className="text-sm transition-opacity hover:opacity-70"
-										style={{ color: "#1a1a1a" }}
+										className="text-foreground text-sm transition-opacity hover:opacity-70"
 									>
 										{artwork.category.title}
 									</Link>
@@ -198,11 +179,8 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
 
 						{/* Description / Artist statement */}
 						{artwork.description && artwork.description.length > 0 && (
-							<div
-								className="mt-8 border-t pt-6"
-								style={{ borderColor: "#e5e5e5" }}
-							>
-								<div className="text-sm" style={{ color: "#1a1a1a" }}>
+							<div className="mt-8 border-border border-t pt-6">
+								<div className="text-foreground text-sm">
 									<PortableText value={artwork.description} />
 								</div>
 							</div>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArtworkCard } from "~/components/ArtworkCard";
 import { CategoryScrollRestorer } from "~/components/CategoryScrollRestorer";
+import { ThemeToggle } from "~/components/ThemeToggle";
 import { getArtworksByCategory, getCategoryBySlug } from "~/sanity/lib/queries";
 
 interface CategoryPageProps {
@@ -50,7 +51,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 	const artworks = await getArtworksByCategory(slug);
 
 	return (
-		<main className="min-h-screen bg-white">
+		<main className="min-h-screen bg-background">
 			{/* Restore scroll position when returning from artwork detail */}
 			<CategoryScrollRestorer categorySlug={slug} />
 
@@ -58,31 +59,28 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 			<div className="container mx-auto px-3 py-12 sm:px-6 sm:py-16 lg:px-12 lg:py-20">
 				{/* Category header */}
 				<div className="mb-12">
-					<h1
-						className="mb-3 text-2xl tracking-tight sm:text-3xl"
-						style={{ color: "#1a1a1a" }}
-					>
-						{category.title}
-					</h1>
+					<div className="mb-3 flex items-start justify-between">
+						<h1 className="text-2xl text-foreground tracking-tight sm:text-3xl">
+							{category.title}
+						</h1>
+						<ThemeToggle />
+					</div>
 
 					{/* Breadcrumb navigation */}
-					<nav
-						className="mb-4 flex items-center gap-2 text-sm"
-						style={{ color: "#999999" }}
-					>
+					<nav className="mb-4 flex items-center gap-2 text-muted text-sm">
 						<Link href="/" className="transition-opacity hover:opacity-70">
 							Inicio
 						</Link>
 						<span>/</span>
-						<span style={{ color: "#1a1a1a" }}>{category.title}</span>
+						<span className="text-foreground">{category.title}</span>
 					</nav>
 
 					{category.description && (
-						<p className="mb-2 text-sm" style={{ color: "#666666" }}>
+						<p className="mb-2 text-muted-dark text-sm">
 							{category.description}
 						</p>
 					)}
-					<p className="text-sm" style={{ color: "#999999" }}>
+					<p className="text-muted text-sm">
 						{artworks.length} {artworks.length === 1 ? "obra" : "obras"}
 					</p>
 				</div>
@@ -90,13 +88,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 				{artworks.length === 0 ? (
 					// Empty state
 					<div className="flex min-h-[40vh] flex-col items-center justify-center text-center">
-						<p className="text-xl" style={{ color: "#999999" }}>
-							No hay obras en esta categoría
-						</p>
+						<p className="text-muted text-xl">No hay obras en esta categoría</p>
 						<Link
 							href="/"
-							className="mt-4 text-sm transition-opacity hover:opacity-70"
-							style={{ color: "#1a1a1a" }}
+							className="mt-4 text-foreground text-sm transition-opacity hover:opacity-70"
 						>
 							← Volver a categorías
 						</Link>
