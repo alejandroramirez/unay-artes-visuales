@@ -12,7 +12,7 @@ export default function HomeTemplate({
 	return (
 		<Suspense
 			fallback={
-				<div className="min-h-screen bg-white">
+				<div className="min-h-screen bg-background">
 					<div className="container mx-auto px-3 py-12 sm:px-6 sm:py-16 lg:px-12 lg:py-20">
 						{/* Header skeleton */}
 						<div className="mb-12">

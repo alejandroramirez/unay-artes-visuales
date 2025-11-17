@@ -32,7 +32,7 @@
 	--muted-dark-color: #d4d4d4;
 	--border-color: #262626;
 	--skeleton-base: #1a1a1a;
-	--skeleton-shine: #262626;
+	--skeleton-shine: #f8f8f8; /* Keep shimmer light for visibility in dark mode */
 }
 
 /* Base styles */
