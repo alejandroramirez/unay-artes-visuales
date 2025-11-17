@@ -20,7 +20,7 @@ export function ThemeToggle() {
 		return (
 			<button
 				type="button"
-				className="rounded-lg p-2 transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800"
+				className="rounded-lg p-2 text-black transition-colors hover:bg-gray-200 dark:text-neutral-100 dark:hover:bg-neutral-700"
 				aria-label="Cambiar tema"
 			>
 				<div className="h-5 w-5" />
@@ -43,7 +43,7 @@ export function ThemeToggle() {
 			// Sun icon
 			return (
 				<svg
-					className="h-5 w-5"
+					className="h-5 w-5 text-black dark:text-neutral-100"
 					fill="none"
 					viewBox="0 0 24 24"
 					stroke="currentColor"
@@ -59,7 +59,7 @@ export function ThemeToggle() {
 			// Moon icon
 			return (
 				<svg
-					className="h-5 w-5"
+					className="h-5 w-5 text-black dark:text-neutral-100"
 					fill="none"
 					viewBox="0 0 24 24"
 					stroke="currentColor"
@@ -73,7 +73,7 @@ export function ThemeToggle() {
 		// System/Monitor icon
 		return (
 			<svg
-				className="h-5 w-5"
+				className="h-5 w-5 text-black dark:text-neutral-100"
 				fill="none"
 				viewBox="0 0 24 24"
 				stroke="currentColor"
@@ -90,7 +90,7 @@ export function ThemeToggle() {
 		<button
 			type="button"
 			onClick={cycleTheme}
-			className="rounded-lg p-2 text-foreground transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800"
+			className="rounded-lg p-2 text-black transition-colors hover:bg-gray-200 dark:text-neutral-100 dark:hover:bg-neutral-700"
 			aria-label={`Cambiar tema (actual: ${theme === "light" ? "claro" : theme === "dark" ? "oscuro" : "sistema"})`}
 		>
 			{getIcon()}

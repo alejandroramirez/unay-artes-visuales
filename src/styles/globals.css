@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Configure dark mode to use class strategy instead of prefers-color-scheme */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
 	--font-sans:
 		var(--font-inter), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",

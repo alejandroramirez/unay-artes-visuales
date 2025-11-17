@@ -35,82 +35,21 @@ export default async function QRCatalogPage() {
 				</div>
 			</div>
 
-			{/* Labels grid - 4 per page (2x2) */}
-			<div className="container mx-auto px-4">
-				{Array.from({ length: Math.ceil(artworks.length / 4) }).map(
-					(_, pageIndex) => {
-						const startIndex = pageIndex * 4;
-						const pageArtworks = artworks.slice(startIndex, startIndex + 4);
-
-						return (
-							<div
-								key={pageIndex}
-								className={
-									pageIndex < Math.ceil(artworks.length / 4) - 1
-										? "page-break"
-										: ""
-								}
-							>
-								<div className="labels-grid">
-									{pageArtworks.map((artwork) => (
-										<div key={artwork._id} className="label">
-											<h2 className="label-title">{artwork.title}</h2>
-
-											<div className="label-divider" />
-
-											{artwork.autor && (
-												<p className="label-field">
-													<span className="label-field-name">Autor:</span>{" "}
-													{artwork.autor}
-												</p>
-											)}
-
-											{artwork.year && (
-												<p className="label-field">
-													<span className="label-field-name">Año:</span>{" "}
-													{artwork.year}
-												</p>
-											)}
-
-											{artwork.medium && (
-												<p className="label-field">
-													<span className="label-field-name">Técnica:</span>{" "}
-													{artwork.medium}
-												</p>
-											)}
-
-											{artwork.dimensions && (
-												<p className="label-field">
-													<span className="label-field-name">Dimensiones:</span>{" "}
-													{artwork.dimensions}
-												</p>
-											)}
-
-											{artwork.category && (
-												<p className="label-field">
-													<span className="label-field-name">Categoría:</span>{" "}
-													{artwork.category.title}
-												</p>
-											)}
-										</div>
-									))}
-
-									{/* Fill empty slots in the last page */}
-									{pageArtworks.length < 4 &&
-										Array.from({ length: 4 - pageArtworks.length }).map(
-											(_, emptyIndex) => (
-												<div
-													key={`empty-${emptyIndex}`}
-													className="label"
-													style={{ visibility: "hidden" }}
-												/>
-											),
-										)}
-								</div>
-							</div>
-						);
-					},
-				)}
+			{/* Preview message - this page just triggers PDF download */}
+			<div className="container mx-auto px-4 py-12">
+				<div className="mx-auto max-w-2xl text-center">
+					<div className="rounded-lg border border-gray-200 bg-gray-50 p-8">
+						<h2 className="mb-4 font-semibold text-gray-900 text-xl">
+							Catálogo de Códigos QR para Obras
+						</h2>
+						<p className="mb-6 text-gray-600">
+							Este catálogo contiene códigos QR para todas las obras de arte.
+						</p>
+						<p className="text-gray-600 text-sm">
+							Haz clic en "Descargar Catálogo QR" para generar el PDF.
+						</p>
+					</div>
+				</div>
 			</div>
 		</main>
 	);
