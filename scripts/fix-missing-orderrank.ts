@@ -1,12 +1,16 @@
 /**
  * Fix Missing OrderRank Script
  *
- * Finds and fixes artworks that are missing the orderRank field
+ * Finds and fixes documents that are missing the orderRank field
+ * Uses the centralized orderRank utility module for consistency
  */
 
 import { createClient } from "@sanity/client";
-import { LexoRank } from "lexorank";
 import { config } from "dotenv";
+import {
+	findDocumentsMissingOrderRank,
+	fixMissingOrderRanks,
+} from "../src/sanity/lib/orderRank.js";
 
 // Load environment variables from .env.local
 config({ path: ".env.local" });
@@ -20,110 +24,6 @@ const client = createClient({
 });
 
 /**
- * Find artworks missing orderRank (including drafts)
- */
-async function findMissingOrderRank(): Promise<
-	Array<{ _id: string; title: string; _type: string }>
-> {
-	console.log("\n🔍 Finding documents without orderRank (including drafts)...\n");
-
-	// Check both artworks and categories, including drafts
-	const query = `*[(_type == "artwork" || _type == "category") && !defined(orderRank)]{
-    _id,
-    _type,
-    title
-  } | order(title asc)`;
-
-	const docs = await client.fetch(query);
-	console.log(`Found ${docs.length} document(s) missing orderRank:\n`);
-
-	for (const doc of docs) {
-		const isDraft = doc._id.startsWith("drafts.");
-		const draftLabel = isDraft ? " [DRAFT]" : "";
-		console.log(
-			`   - ${doc.title || "Untitled"} (${doc._type})${draftLabel} - ${doc._id}`,
-		);
-	}
-
-	return docs;
-}
-
-/**
- * Get the last orderRank value for a specific type
- */
-async function getLastOrderRank(docType: string): Promise<string | null> {
-	const query = `*[_type == $type && defined(orderRank)] | order(orderRank desc)[0].orderRank`;
-	return await client.fetch(query, { type: docType });
-}
-
-/**
- * Fix missing orderRank values
- */
-async function fixMissingOrderRank(
-	docs: Array<{ _id: string; title: string; _type: string }>,
-): Promise<void> {
-	console.log("\n🔧 Fixing missing orderRank values...\n");
-
-	// Group by type
-	const artworks = docs.filter((d) => d._type === "artwork");
-	const categories = docs.filter((d) => d._type === "category");
-
-	// Fix artworks
-	if (artworks.length > 0) {
-		console.log("📄 Fixing artworks...\n");
-		await fixDocuments(artworks, "artwork");
-	}
-
-	// Fix categories
-	if (categories.length > 0) {
-		console.log("\n📁 Fixing categories...\n");
-		await fixDocuments(categories, "category");
-	}
-}
-
-/**
- * Fix documents of a specific type
- */
-async function fixDocuments(
-	docs: Array<{ _id: string; title: string; _type: string }>,
-	docType: string,
-): Promise<void> {
-	// Get the last orderRank for this type
-	const lastOrderRankStr = await getLastOrderRank(docType);
-
-	let lastRank: LexoRank;
-	if (lastOrderRankStr) {
-		lastRank = LexoRank.parse(lastOrderRankStr);
-		console.log(`   Last existing orderRank: ${lastOrderRankStr}`);
-	} else {
-		// No documents have orderRank yet, start from the beginning
-		lastRank = LexoRank.middle();
-		console.log("   No existing orderRank found, starting fresh");
-	}
-
-	console.log("");
-
-	// Assign orderRank to each missing document
-	for (const doc of docs) {
-		// Generate next rank
-		lastRank = lastRank.genNext();
-		const orderRank = lastRank.toString();
-
-		// Update the document
-		await client
-			.patch(doc._id)
-			.set({
-				orderRank,
-			})
-			.commit();
-
-		const isDraft = doc._id.startsWith("drafts.");
-		const draftLabel = isDraft ? " [DRAFT]" : "";
-		console.log(`   ✓ ${doc.title || "Untitled"}${draftLabel}: ${orderRank}`);
-	}
-}
-
-/**
  * Main execution
  */
 async function main() {
@@ -131,22 +31,49 @@ async function main() {
 	console.log("================================");
 
 	try {
-		// Step 1: Find documents missing orderRank
-		const docs = await findMissingOrderRank();
+		// Find all documents missing orderRank
+		console.log(
+			"\n🔍 Finding documents without orderRank (including drafts)...\n",
+		);
+		const docs = await findDocumentsMissingOrderRank(client, null);
 
 		if (docs.length === 0) {
-			console.log(
-				"\n✨ All documents have orderRank. Nothing to fix!",
-			);
+			console.log("✨ All documents have orderRank. Nothing to fix!\n");
 			return;
 		}
 
-		// Step 2: Fix missing orderRank values
-		await fixMissingOrderRank(docs);
+		console.log(`Found ${docs.length} document(s) missing orderRank:\n`);
 
-		console.log("\n✅ Successfully fixed all missing orderRank values!");
+		// Display missing documents
+		for (const doc of docs) {
+			const isDraft = doc._id.startsWith("drafts.");
+			const draftLabel = isDraft ? " [DRAFT]" : "";
+			console.log(
+				`   - ${doc.title || "Untitled"} (${doc._type})${draftLabel}`,
+			);
+		}
+
+		console.log("\n🔧 Fixing missing orderRank values...\n");
+
+		// Fix artworks
+		const artworks = docs.filter((d) => d._type === "artwork");
+		if (artworks.length > 0) {
+			console.log("📄 Fixing artworks...");
+			const fixedArtworks = await fixMissingOrderRanks(client, "artwork");
+			console.log(`   ✓ Fixed ${fixedArtworks} artwork(s)\n`);
+		}
+
+		// Fix categories
+		const categories = docs.filter((d) => d._type === "category");
+		if (categories.length > 0) {
+			console.log("📁 Fixing categories...");
+			const fixedCategories = await fixMissingOrderRanks(client, "category");
+			console.log(`   ✓ Fixed ${fixedCategories} category(s)\n`);
+		}
+
+		console.log("✅ Successfully fixed all missing orderRank values!");
 		console.log(
-			`   ${docs.length} document(s) now have proper ordering in Studio`,
+			`   ${docs.length} document(s) now have proper ordering in Studio\n`,
 		);
 	} catch (error) {
 		console.error("\n❌ Error fixing orderRank:", error);

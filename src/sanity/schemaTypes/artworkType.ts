@@ -103,7 +103,21 @@ export const artworkType = defineType({
 			description: "Medium or technique used",
 			placeholder: 'e.g., "Oil on canvas", "Digital print", "Grabado"',
 		}),
-		// orderRank field for drag-and-drop ordering (auto-generates initial values)
+		/**
+		 * OrderRank field for drag-and-drop ordering in Studio
+		 *
+		 * AUTO-INITIALIZES: For documents created in Sanity Studio UI
+		 * MANUAL REQUIRED: For documents created programmatically (imports, API, scripts)
+		 *
+		 * If you create documents via API/scripts, use the orderRank utility:
+		 * import { getNextOrderRank } from '~/sanity/lib/orderRank'
+		 *
+		 * Troubleshooting:
+		 * - If you see "X/Y documents have no order" warning, run: pnpm fix:orderrank
+		 * - Or use "Reset Order" option in Studio's orderable list menu
+		 *
+		 * See: /docs/orderrank-management.md
+		 */
 		orderRankField({ type: "artwork" }),
 	],
 	preview: {

@@ -1,15 +1,24 @@
 #!/usr/bin/env tsx
 
 /**
- * Assign orderRank to documents that don't have it yet
+ * @deprecated This script is deprecated in favor of fix-missing-orderrank.ts
+ *
+ * Please use `pnpm fix:orderrank` instead, which uses the centralized
+ * orderRank utility module for better consistency.
  *
  * This script preserves existing orderRank values and only assigns
  * orderRank to documents that are missing it. New documents are
  * placed at the end of the list.
  *
  * Usage:
- *   pnpm tsx scripts/assign-orderrank-to-new.ts
+ *   pnpm tsx scripts/assign-orderrank-to-new.ts (DEPRECATED)
+ *   pnpm fix:orderrank (RECOMMENDED)
  */
+
+console.warn("\n⚠️  DEPRECATION NOTICE:");
+console.warn("This script is deprecated. Please use:");
+console.warn("  pnpm fix:orderrank");
+console.warn("\nContinuing anyway...\n");
 
 import { createClient } from "@sanity/client";
 import { config } from "dotenv";
