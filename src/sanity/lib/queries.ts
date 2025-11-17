@@ -39,7 +39,6 @@ export async function getAllArtwork(): Promise<ArtworkGridItem[]> {
         slug
       },
       year,
-      order
     }`,
 		{},
 		{ next: { revalidate: 60 } },
@@ -75,12 +74,10 @@ export async function getAllArtworkForLabels(): Promise<
         title,
         slug,
         description,
-        order
       },
       year,
       dimensions,
       medium,
-      order
     }`,
 		{},
 		{ cache: "force-cache" },
@@ -114,12 +111,10 @@ export async function getArtworkBySlug(slug: string): Promise<Artwork | null> {
         title,
         slug,
         description,
-        order
       },
       year,
       dimensions,
       medium,
-      order
     }`,
 		{ slug },
 		{ next: { revalidate: 60 } },
@@ -170,12 +165,10 @@ export async function getArtworkWithNavigation(slug: string): Promise<{
           title,
           slug,
           description,
-          order
         },
         year,
         dimensions,
         medium,
-        order
       },
       "allArtworksInCategory": *[_type == "artwork" && category._ref == *[_type == "artwork" && slug.current == $slug][0].category._ref] | order(orderRank asc, _createdAt desc) {
         _id,
@@ -226,7 +219,6 @@ export async function getAllCategories(): Promise<Category[]> {
       title,
       slug,
       description,
-      order
     }`,
 	);
 }
@@ -282,7 +274,6 @@ export async function getArtworksByCategory(
         slug
       },
       year,
-      order
     }`,
 		{ categorySlug },
 		{ next: { revalidate: 60 } },
@@ -305,7 +296,6 @@ export async function getCategoryBySlug(
       title,
       slug,
       description,
-      order
     }`,
 		{ slug },
 		{ next: { revalidate: 60 } },

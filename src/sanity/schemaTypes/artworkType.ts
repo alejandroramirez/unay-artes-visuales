@@ -103,15 +103,6 @@ export const artworkType = defineType({
 			description: "Medium or technique used",
 			placeholder: 'e.g., "Oil on canvas", "Digital print", "Grabado"',
 		}),
-		defineField({
-			name: "order",
-			title: "Order",
-			type: "number",
-			description:
-				"Order in which this artwork appears in the gallery (lower numbers appear first)",
-			validation: (Rule) => Rule.integer().min(0),
-			hidden: true, // Hidden - ordering is now managed by drag-and-drop
-		}),
 		// orderRank field for drag-and-drop ordering (auto-generates initial values)
 		orderRankField({ type: "artwork" }),
 	],
@@ -134,14 +125,6 @@ export const artworkType = defineType({
 	orderings: [
 		// Default drag-and-drop ordering
 		orderRankOrdering,
-		{
-			title: "Order (Low to High)",
-			name: "orderAsc",
-			by: [
-				{ field: "order", direction: "asc" },
-				{ field: "_createdAt", direction: "desc" },
-			],
-		},
 		{
 			title: "Year (Newest First)",
 			name: "yearDesc",

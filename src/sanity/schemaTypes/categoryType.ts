@@ -63,28 +63,18 @@ export const categoryType = defineType({
 				},
 			},
 		}),
-		defineField({
-			name: "order",
-			title: "Order",
-			type: "number",
-			description:
-				"Order in which this category appears (lower numbers appear first)",
-			validation: (Rule) => Rule.integer().min(0),
-			hidden: true, // Hidden - ordering is now managed by drag-and-drop
-		}),
 		// orderRank field for drag-and-drop ordering (auto-generates initial values)
 		orderRankField({ type: "category" }),
 	],
 	preview: {
 		select: {
 			title: "title",
-			order: "order",
 		},
-		prepare({ title, order }) {
+		prepare({ title }) {
 			return {
 				title: title,
-				subtitle: order !== undefined ? `Order: ${order}` : "No order set",
 			};
 		},
 	},
+	orderings: [orderRankOrdering],
 });

@@ -20,7 +20,6 @@ export interface Category {
 		_ref: string;
 		_type: "reference";
 	};
-	order?: number;
 }
 
 export interface Artwork {
@@ -41,7 +40,6 @@ export interface Artwork {
 	year?: string;
 	dimensions?: string;
 	medium?: string;
-	order?: number;
 }
 
 /**
@@ -66,7 +64,6 @@ export interface ArtworkGridItem {
 		};
 	};
 	year?: string;
-	order?: number;
 }
 
 /**
@@ -80,7 +77,6 @@ export interface CategoryWithArtwork {
 		current: string;
 	};
 	description?: string;
-	order?: number;
 	artworkCount: number;
 	sampleImage?: Image & {
 		alt: string;
