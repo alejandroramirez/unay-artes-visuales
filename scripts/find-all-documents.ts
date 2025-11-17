@@ -67,7 +67,9 @@ async function findAllDocuments() {
     }`;
 		const missing = await client.fetch(missingQuery);
 		for (const doc of missing) {
-			console.log(`   - ${doc.title || "Untitled"} (${doc._type}) - ${doc._id}`);
+			console.log(
+				`   - ${doc.title || "Untitled"} (${doc._type}) - ${doc._id}`,
+			);
 		}
 	}
 }

@@ -38,9 +38,7 @@ async function findMissingAlt() {
 	if (artworks.length > 0) {
 		console.log("\n💡 To fix these, you can:");
 		console.log("   1. Edit each artwork in Sanity Studio");
-		console.log(
-			"   2. Use the fix-artwork-alt.ts script for individual fixes",
-		);
+		console.log("   2. Use the fix-artwork-alt.ts script for individual fixes");
 		console.log(
 			'      Example: pnpm tsx scripts/fix-artwork-alt.ts "<id>" "Alt text"',
 		);

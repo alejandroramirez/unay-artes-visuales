@@ -47,7 +47,9 @@ async function checkCategory() {
 				`✓ ${cat.title}: Found artwork "${artwork.title}" (refs: ${artwork.categoryRef})`,
 			);
 		} else {
-			console.log(`✗ ${cat.title}: No artworks found that reference this category`);
+			console.log(
+				`✗ ${cat.title}: No artworks found that reference this category`,
+			);
 		}
 	}
 }

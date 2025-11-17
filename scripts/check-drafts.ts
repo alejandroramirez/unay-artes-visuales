@@ -62,10 +62,9 @@ async function checkDrafts() {
 	}
 
 	const totalDrafts = draftArtworks.length + draftCategories.length;
-	const draftsWithoutOrderRank = [
-		...draftArtworks,
-		...draftCategories,
-	].filter((d) => !d.hasOrderRank);
+	const draftsWithoutOrderRank = [...draftArtworks, ...draftCategories].filter(
+		(d) => !d.hasOrderRank,
+	);
 
 	console.log("================================");
 	console.log(`\nTotal drafts: ${totalDrafts}`);

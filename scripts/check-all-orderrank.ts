@@ -70,7 +70,9 @@ async function checkOrderRank() {
 	const totalDocs = artworks.total + categories.total;
 
 	console.log("================================");
-	console.log(`\n📊 Summary: ${totalMissing}/${totalDocs} documents missing orderRank`);
+	console.log(
+		`\n📊 Summary: ${totalMissing}/${totalDocs} documents missing orderRank`,
+	);
 
 	if (totalMissing > 0) {
 		console.log("\n⚠️  Run the appropriate fix script to resolve this:");

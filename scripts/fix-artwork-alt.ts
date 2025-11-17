@@ -57,7 +57,9 @@ const artworkId = process.argv[2];
 const altText = process.argv[3];
 
 if (!artworkId || !altText) {
-	console.log("Usage: pnpm tsx scripts/fix-artwork-alt.ts <artworkId> <altText>");
+	console.log(
+		"Usage: pnpm tsx scripts/fix-artwork-alt.ts <artworkId> <altText>",
+	);
 	console.log(
 		'Example: pnpm tsx scripts/fix-artwork-alt.ts "abc123" "Description of artwork"',
 	);

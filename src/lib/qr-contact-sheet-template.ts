@@ -10,9 +10,7 @@ interface QRCodeData {
  * Generate HTML for QR code contact sheet PDF
  * Creates a print-ready document with 8 QR codes per A4 portrait page
  */
-export function generateQRContactSheetHTML(
-	qrCodeData: QRCodeData[],
-): string {
+export function generateQRContactSheetHTML(qrCodeData: QRCodeData[]): string {
 	// Helper function to safely escape HTML
 	const escapeHTML = (str: string | undefined): string => {
 		if (!str) return "";
