@@ -1,4 +1,8 @@
 import { TagIcon } from "@sanity/icons";
+import {
+	orderRankField,
+	orderRankOrdering,
+} from "@sanity/orderable-document-list";
 import { defineField, defineType } from "sanity";
 
 export const categoryType = defineType({
@@ -68,14 +72,8 @@ export const categoryType = defineType({
 			validation: (Rule) => Rule.integer().min(0),
 			hidden: true, // Hidden - ordering is now managed by drag-and-drop
 		}),
-		defineField({
-			name: "orderRank",
-			title: "Order Rank",
-			type: "string",
-			description:
-				"Used for drag-and-drop ordering in Studio (managed automatically)",
-			hidden: true, // Hide from editors since it's managed by the plugin
-		}),
+		// orderRank field for drag-and-drop ordering (auto-generates initial values)
+		orderRankField({ type: "category" }),
 	],
 	preview: {
 		select: {

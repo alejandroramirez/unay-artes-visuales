@@ -114,18 +114,14 @@ async function getPlaceholderImage(): Promise<{ _ref: string; _type: string }> {
 		};
 	}
 
-	// Create a bright, obvious SVG placeholder
+	// Create a white placeholder with Spanish text
 	const placeholderSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
-  <rect width="800" height="600" fill="#FF6B6B"/>
-  <rect x="50" y="50" width="700" height="500" fill="#FFE66D" stroke="#000" stroke-width="4"/>
-  <text x="400" y="250" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="#000">
-    ⚠️ PLACEHOLDER
+  <rect width="800" height="600" fill="#FFFFFF"/>
+  <text x="400" y="280" font-family="Arial, sans-serif" font-size="28" text-anchor="middle" fill="#666" font-weight="normal">
+    El autor no proporcionó
   </text>
-  <text x="400" y="320" font-family="Arial, sans-serif" font-size="32" text-anchor="middle" fill="#000">
-    Replace with actual artwork image
-  </text>
-  <text x="400" y="380" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#666">
-    in Sanity Studio
+  <text x="400" y="320" font-family="Arial, sans-serif" font-size="28" text-anchor="middle" fill="#666" font-weight="normal">
+    evidencia fotográfica
   </text>
 </svg>`;
 
@@ -452,7 +448,7 @@ async function main() {
 		console.log("\n⚠️  IMPORTANT: Next Steps");
 		console.log("   1. Go to Sanity Studio (/studio)");
 		console.log(
-			"   2. Look for artworks with the bright RED/YELLOW placeholder image",
+			'   2. Look for artworks with the white placeholder image that says "El autor no proporcionó evidencia fotográfica"',
 		);
 		console.log("   3. For each artwork:");
 		console.log(
