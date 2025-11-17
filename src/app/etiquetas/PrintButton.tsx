@@ -50,7 +50,7 @@ export function PrintButton() {
 			disabled={isLoading}
 			type="button"
 		>
-			{isLoading ? "Generando PDF..." : "Descargar Etiquetas PDF"}
+			{isLoading ? "Generando PDF..." : "Descargar Catálogo QR"}
 		</button>
 	);
 }

@@ -4,32 +4,32 @@ import { PrintButton } from "./PrintButton";
 import "./print.css";
 
 export const metadata: Metadata = {
-	title: "Etiquetas para Impresión | Universidad de las Artes de Yucatán",
-	description: "Etiquetas de obras para exhibición",
+	title: "Catálogo QR | Universidad de las Artes de Yucatán",
+	description: "Catálogo de obras con códigos QR",
 };
 
 /**
- * Print Labels Page
- * Displays artwork labels formatted for A4 paper (4 labels per page)
- * Ready for printing with proper page breaks
+ * QR Code Catalog Page
+ * Displays QR code contact sheet for all artworks
+ * Generates PDF with 8 QR codes per A4 portrait page
  */
-export default async function PrintLabelsPage() {
+export default async function QRCatalogPage() {
 	const artworks = await getAllArtworkForLabels();
 
 	return (
 		<main className="print-container">
-			{/* Screen-only header with print button */}
+			{/* Screen-only header with download button */}
 			<div className="print-header no-print">
 				<div className="container mx-auto px-4">
 					<h1
 						className="mb-3 font-semibold text-2xl"
 						style={{ color: "#1a1a1a" }}
 					>
-						Etiquetas para Exhibición
+						Catálogo de Códigos QR
 					</h1>
 					<p className="mb-4 text-sm" style={{ color: "#666" }}>
-						{artworks.length} {artworks.length === 1 ? "obra" : "obras"} • 4
-						etiquetas por página
+						{artworks.length} {artworks.length === 1 ? "obra" : "obras"} • 8
+						códigos QR por página
 					</p>
 					<PrintButton />
 				</div>

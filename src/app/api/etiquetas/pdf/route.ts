@@ -1,16 +1,17 @@
 import { NextResponse } from "next/server";
-import { generateLabelsPDFHTML } from "~/lib/labels-pdf-template";
+import QRCode from "qrcode";
 import { generatePDF } from "~/lib/pdf-generator";
+import { generateQRContactSheetHTML } from "~/lib/qr-contact-sheet-template";
 import { getAllArtworkForLabels } from "~/sanity/lib/queries";
 
 /**
- * API Route: Generate Labels PDF
+ * API Route: Generate QR Code Contact Sheet PDF
  * GET /api/etiquetas/pdf
  *
- * Generates a PDF document with artwork labels for printing
+ * Generates a PDF document with QR codes for each artwork
  * Returns PDF file for download
  */
-export async function GET() {
+export async function GET(request: Request) {
 	try {
 		// Fetch all artwork data
 		const artworks = await getAllArtworkForLabels();
@@ -19,13 +20,38 @@ export async function GET() {
 			return new NextResponse("No artwork found", { status: 404 });
 		}
 
-		// Generate HTML for PDF
-		const html = generateLabelsPDFHTML(artworks);
+		// Get base URL from request
+		const url = new URL(request.url);
+		const baseUrl = `${url.protocol}//${url.host}`;
 
-		// Generate PDF with A4 landscape and 1.5cm margins
+		// Generate QR codes for each artwork
+		const qrCodeData = await Promise.all(
+			artworks.map(async (artwork) => {
+				const artworkUrl = `${baseUrl}/obra/${artwork.slug.current}`;
+				const qrCodeDataUrl = await QRCode.toDataURL(artworkUrl, {
+					width: 300,
+					margin: 1,
+					color: {
+						dark: "#000000",
+						light: "#FFFFFF",
+					},
+				});
+
+				return {
+					artwork,
+					qrCodeDataUrl,
+					url: artworkUrl,
+				};
+			}),
+		);
+
+		// Generate HTML for PDF
+		const html = generateQRContactSheetHTML(qrCodeData);
+
+		// Generate PDF with A4 portrait and 1.5cm margins
 		const pdfBuffer = await generatePDF(html, {
 			format: "A4",
-			landscape: true,
+			landscape: false,
 			margin: {
 				top: "1.5cm",
 				right: "1.5cm",
@@ -36,7 +62,7 @@ export async function GET() {
 
 		// Create filename with current date
 		const date = new Date().toISOString().split("T")[0];
-		const filename = `etiquetas-unay-${date}.pdf`;
+		const filename = `catalogo-qr-unay-${date}.pdf`;
 
 		// Return PDF as downloadable file
 		return new NextResponse(new Uint8Array(pdfBuffer), {
