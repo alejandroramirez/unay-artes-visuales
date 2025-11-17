@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 
-export function PrintButton() {
+interface PrintButtonProps {
+	apiPath?: string;
+}
+
+export function PrintButton({
+	apiPath = "/api/etiquetas/pdf",
+}: PrintButtonProps) {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleDownloadPDF = async () => {
@@ -10,7 +16,7 @@ export function PrintButton() {
 			setIsLoading(true);
 
 			// Fetch PDF from API
-			const response = await fetch("/api/etiquetas/pdf");
+			const response = await fetch(apiPath);
 
 			if (!response.ok) {
 				throw new Error("Failed to generate PDF");
