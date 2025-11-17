@@ -131,7 +131,7 @@ export function generateCategoryQRSheetHTML(
     .page {
       width: 21cm;
       height: 29.7cm;
-      padding: 1.5cm;
+      padding: 0.8cm;
       background: white;
       display: flex;
       flex-direction: column;
@@ -144,8 +144,8 @@ export function generateCategoryQRSheetHTML(
 
     .page-header {
       text-align: center;
-      margin-bottom: 1cm;
-      padding-bottom: 0.5cm;
+      margin-bottom: 0.5cm;
+      padding-bottom: 0.3cm;
       border-bottom: 2px solid #333;
     }
 
@@ -163,7 +163,7 @@ export function generateCategoryQRSheetHTML(
 
     /* Grid layout for QR codes
      * A4 portrait: 210mm x 297mm (21cm x 29.7cm)
-     * With 1.5cm margins and header/footer: ~24cm usable height
+     * With 0.8cm margins and header/footer: ~26cm usable height
      * 2 columns x 4 rows = 8 QR codes per page
      */
     .qr-grid {
@@ -171,8 +171,8 @@ export function generateCategoryQRSheetHTML(
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: repeat(4, 1fr);
-      gap: 0.8cm;
-      margin-bottom: 0.5cm;
+      gap: 0.4cm;
+      margin-bottom: 0.3cm;
     }
 
     .qr-cell {
@@ -180,7 +180,7 @@ export function generateCategoryQRSheetHTML(
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 0.5cm;
+      padding: 0.2cm;
       border: 1px solid #ddd;
       border-radius: 4px;
       break-inside: avoid;
@@ -193,9 +193,9 @@ export function generateCategoryQRSheetHTML(
     }
 
     .qr-image {
-      width: 5cm;
-      height: 5cm;
-      margin-bottom: 0.3cm;
+      width: 4.5cm;
+      height: 4.5cm;
+      margin-bottom: 0.2cm;
     }
 
     .item-title {
@@ -216,7 +216,7 @@ export function generateCategoryQRSheetHTML(
 
     .page-footer {
       text-align: center;
-      padding-top: 0.3cm;
+      padding-top: 0.2cm;
       border-top: 1px solid #ddd;
     }
 

@@ -48,15 +48,15 @@ export async function GET(request: Request) {
 		// Generate HTML for PDF
 		const html = generateQRContactSheetHTML(qrCodeData);
 
-		// Generate PDF with A4 portrait and 1.5cm margins
+		// Generate PDF with A4 portrait and 0.8cm margins
 		const pdfBuffer = await generatePDF(html, {
 			format: "A4",
 			landscape: false,
 			margin: {
-				top: "1.5cm",
-				right: "1.5cm",
-				bottom: "1.5cm",
-				left: "1.5cm",
+				top: "0.8cm",
+				right: "0.8cm",
+				bottom: "0.8cm",
+				left: "0.8cm",
 			},
 		});
 
